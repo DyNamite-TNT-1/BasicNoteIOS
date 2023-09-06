@@ -14,6 +14,7 @@
 		926EA5A52AA82E790092D881 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A42AA82E790092D881 /* ListView.swift */; };
 		926EA5A72AA82EBB0092D881 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A62AA82EBB0092D881 /* ListRowView.swift */; };
 		926EA5A92AA82ECE0092D881 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A82AA82ECE0092D881 /* AddView.swift */; };
+		926EA5AB2AA8348F0092D881 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AA2AA8348F0092D881 /* ListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		926EA5A42AA82E790092D881 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		926EA5A62AA82EBB0092D881 /* ListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
 		926EA5A82AA82ECE0092D881 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
+		926EA5AA2AA8348F0092D881 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 		926EA5A12AA82DB20092D881 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				926EA5AA2AA8348F0092D881 /* ListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 			files = (
 				926EA5A52AA82E790092D881 /* ListView.swift in Sources */,
 				926EA5A92AA82ECE0092D881 /* AddView.swift in Sources */,
+				926EA5AB2AA8348F0092D881 /* ListViewModel.swift in Sources */,
 				926EA5A72AA82EBB0092D881 /* ListRowView.swift in Sources */,
 				926EA5A32AA82E290092D881 /* NoteModel.swift in Sources */,
 				926EA5922AA82A980092D881 /* BasicNoteIOSApp.swift in Sources */,

@@ -8,33 +8,27 @@
 import SwiftUI
 
 struct ListView: View {
-    @State var items: [NoteModel] = [
-        NoteModel(title: "This is the first title!", isCompleted: false),
-        NoteModel(title: "This is the second!", isCompleted: true),
-        NoteModel(title: "Third!", isCompleted: false),
-        ]
-        
-        var body: some View {
-            List {
-                ForEach(items) {
-                    item in
-                    ListRowView(item: item)
-                }
-                .onDelete(perform: deleteItem)
-                .onMove(perform: moveItem)
+    
+    @EnvironmentObject var listViewModel: ListViewModel
+    
+    var body: some View {
+        List {
+            ForEach(listViewModel.items) {
+                item in
+                ListRowView(item: item)
+                    .onTapGesture {
+                        withAnimation(.linear) {
+                            listViewModel.updateItem(item: item)
+                        }
+                    }
             }
-            //        .listStyle(PlainListStyle())
-            .navigationTitle("Todo List 📝")
-            .navigationBarItems(leading: EditButton(), trailing: NavigationLink("Add", destination: AddView()))
+            .onDelete(perform: listViewModel.deleteItem)
+            .onMove(perform: listViewModel.moveItem)
         }
-        
-        func deleteItem(indexSet: IndexSet) {
-            items.remove(atOffsets: indexSet)
-        }
-        
-        func moveItem(from: IndexSet, to: Int) {
-            items.move(fromOffsets: from, toOffset: to);
-        }
+        //        .listStyle(PlainListStyle())
+        .navigationTitle("Todo List 📝")
+        .navigationBarItems(leading: EditButton(), trailing: NavigationLink("Add", destination: AddView()))
+    }
 }
 
 struct ListView_Previews: PreviewProvider {
@@ -42,5 +36,6 @@ struct ListView_Previews: PreviewProvider {
         NavigationView {
             ListView()
         }
+        .environmentObject(ListViewModel())
     }
 }
