@@ -8,7 +8,7 @@
 import Foundation
 
 //Immutable Struct
-struct NoteModel: Identifiable {
+struct NoteModel: Identifiable, Codable {
     let id: String
     let title: String
     let isCompleted: Bool

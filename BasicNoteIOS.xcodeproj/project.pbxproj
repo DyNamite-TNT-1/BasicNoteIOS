@@ -15,6 +15,7 @@
 		926EA5A72AA82EBB0092D881 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A62AA82EBB0092D881 /* ListRowView.swift */; };
 		926EA5A92AA82ECE0092D881 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A82AA82ECE0092D881 /* AddView.swift */; };
 		926EA5AB2AA8348F0092D881 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AA2AA8348F0092D881 /* ListViewModel.swift */; };
+		926EA5AD2AA85D150092D881 /* NoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AC2AA85D150092D881 /* NoItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		926EA5A62AA82EBB0092D881 /* ListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
 		926EA5A82AA82ECE0092D881 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		926EA5AA2AA8348F0092D881 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		926EA5AC2AA85D150092D881 /* NoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				926EA5A42AA82E790092D881 /* ListView.swift */,
 				926EA5A62AA82EBB0092D881 /* ListRowView.swift */,
 				926EA5A82AA82ECE0092D881 /* AddView.swift */,
+				926EA5AC2AA85D150092D881 /* NoItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				926EA5A52AA82E790092D881 /* ListView.swift in Sources */,
+				926EA5AD2AA85D150092D881 /* NoItemView.swift in Sources */,
 				926EA5A92AA82ECE0092D881 /* AddView.swift in Sources */,
 				926EA5AB2AA8348F0092D881 /* ListViewModel.swift in Sources */,
 				926EA5A72AA82EBB0092D881 /* ListRowView.swift in Sources */,
