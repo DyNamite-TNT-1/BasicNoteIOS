@@ -11,7 +11,8 @@ struct AddItemView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var listViewModel: MainViewModel
-    @State var textFieldText: String = ""
+    @State var titleTxtField: String = ""
+    @State var descriptionTxtField: String = ""
     
     @State var alertTitle: String = ""
     @State var showAlert: Bool = false
@@ -19,9 +20,14 @@ struct AddItemView: View {
     var body: some View {
         ScrollView{
             VStack {
-                TextField("Type something here...", text: $textFieldText)
+                TextField("Type title here...", text: $titleTxtField)
                     .padding(.horizontal)
                     .frame(height: 55)
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(10)
+                TextField("Type description here...", text: $descriptionTxtField, axis: .vertical)
+                    .padding()
+                    .frame(height: 100, alignment: .top)
                     .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(10)
                 Button(action: saveButtonPressed, label: {
@@ -40,14 +46,14 @@ struct AddItemView: View {
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            listViewModel.addItem(title: textFieldText)
+            listViewModel.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date())
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }
     }
     
     func textIsAppropriate() -> Bool {
-        if textFieldText.count < 3 {
+        if titleTxtField.count < 3 {
             alertTitle = "Your new todo item must be at least 3 characters long !!! 🥲😳"
             showAlert.toggle()
             return false;

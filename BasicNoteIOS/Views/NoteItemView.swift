@@ -9,22 +9,34 @@ import SwiftUI
 
 struct NoteItemView: View {
     let item: NoteModel
+    var onToggleDone: (()->Void)?
     
     var body: some View {
         HStack {
             Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
                 .foregroundColor(item.isCompleted ? .green : .red)
-            Text(item.title)
-            Spacer()
+                .onTapGesture {
+                    onToggleDone?()
+                }
+            VStack(alignment: .leading){
+                Text(item.title)
+                    .font(.system(size: 18, weight: .semibold))
+                if !item.desctiption.isEmpty {
+                    Text(item.desctiption)
+                        .font(.body)
+                }
+                Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
+                    .font(.footnote)
+            }
         }
         .font(.title2)
         .padding(.vertical, 8)
     }
 }
 
-struct ListRowView_Previews: PreviewProvider {
-    static var item1 = NoteModel(title: "First item!", isCompleted: false);
-    static var item2 = NoteModel(title: "Second item!", isCompleted: true);
+struct NoteItemView_Previews: PreviewProvider {
+    static var item1 = NoteModel(title: "First item!", desctiption: "This is description! You need to do follow step by step. If not, you will fail.", createDate: Date(), isCompleted: false);
+    static var item2 = NoteModel(title: "Second item!", desctiption: "This is description! You need to do follow step by step. If not, you will fail.", createDate: Date(), isCompleted: true);
     
     static var previews: some View {
         Group {

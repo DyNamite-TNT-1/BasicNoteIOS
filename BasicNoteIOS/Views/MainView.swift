@@ -10,35 +10,45 @@ import SwiftUI
 struct MainView: View {
     
     @EnvironmentObject var listViewModel: MainViewModel
+    @State private var query = ""
     
     var body: some View {
         ZStack {
             if listViewModel.items.isEmpty {
-                NoItemView()
+                NoNoteDataView()
                     .transition(AnyTransition.opacity.animation(.easeIn))
             } else {
                 List {
-                    ForEach(listViewModel.items) {
+                    ForEach(listViewModel.renderItems) {
                         item in
-                        NoteItemView(item: item)
-                            .onTapGesture {
-                                withAnimation(.linear) {
-                                    listViewModel.updateItem(item: item)
-                                }
+                        NoteItemView(item: item, onToggleDone: {
+                            withAnimation(.linear) {
+                                listViewModel.updateItem(item: item)
                             }
+                        })
+//                        .onTapGesture {
+//                            withAnimation(.linear) {
+//                                listViewModel.updateItem(item: item)
+//                            }
+//                        }
                     }
                     .onDelete(perform: listViewModel.deleteItem)
                     .onMove(perform: listViewModel.moveItem)
                 }
-                //        .listStyle(PlainListStyle())
+                .searchable(text: $query, prompt: "Find a note")
+                .onChange(of: query) { newQuery in
+                    listViewModel.searchItems(query: newQuery)
+                }
             }
         }
         .navigationTitle("Todo List 📝")
-        .navigationBarItems(leading: EditButton(), trailing: NavigationLink("Add", destination: AddItemView()))
+        .navigationBarItems(leading: EditButton(), trailing: HStack {
+            NavigationLink("Add", destination: AddItemView())
+        })
     }
 }
 
-struct ListView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             MainView()

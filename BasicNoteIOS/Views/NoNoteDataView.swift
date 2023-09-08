@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NoItemView: View {
+struct NoNoteDataView: View {
     
     @State var animate: Bool = false
     let secondaryAccentColor = Color("SecondaryAccentColor")
@@ -60,10 +60,10 @@ struct NoItemView: View {
     }
 }
 
-struct NoItemView_Previews: PreviewProvider {
+struct NoNoteDataView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NoItemView()
+            NoNoteDataView()
                 .navigationTitle("Title")
         }
     }
