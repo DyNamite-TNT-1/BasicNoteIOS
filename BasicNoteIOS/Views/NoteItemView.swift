@@ -10,27 +10,35 @@ import SwiftUI
 struct NoteItemView: View {
     let item: NoteModel
     var onToggleDone: (()->Void)?
+    @State var onShowDetail: Bool = false
     
     var body: some View {
-        HStack {
-            Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
-                .foregroundColor(item.isCompleted ? .green : .red)
+        NavigationView {
+            HStack {
+                Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
+                    .foregroundColor(item.isCompleted ? .green : .red)
+                    .onTapGesture {
+                        onToggleDone?()
+                    }
+                
+                VStack(alignment: .leading){
+                    Text(item.title)
+                        .font(.system(size: 18, weight: .semibold))
+                    if !item.desctiption.isEmpty {
+                        Text(item.desctiption)
+                            .font(.body)
+                    }
+                    Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
+                        .font(.footnote)
+                }
                 .onTapGesture {
-                    onToggleDone?()
+                    onShowDetail.toggle()
                 }
-            VStack(alignment: .leading){
-                Text(item.title)
-                    .font(.system(size: 18, weight: .semibold))
-                if !item.desctiption.isEmpty {
-                    Text(item.desctiption)
-                        .font(.body)
-                }
-                Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
-                    .font(.footnote)
+                NavigationLink("", destination: NoteDetailView(item: item), isActive: $onShowDetail).hidden()
             }
+            .font(.title2)
+            .padding(.vertical, 8)
         }
-        .font(.title2)
-        .padding(.vertical, 8)
     }
 }
 
