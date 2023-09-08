@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ListView: View {
+struct MainView: View {
     
-    @EnvironmentObject var listViewModel: ListViewModel
+    @EnvironmentObject var listViewModel: MainViewModel
     
     var body: some View {
         ZStack {
@@ -20,7 +20,7 @@ struct ListView: View {
                 List {
                     ForEach(listViewModel.items) {
                         item in
-                        ListRowView(item: item)
+                        NoteItemView(item: item)
                             .onTapGesture {
                                 withAnimation(.linear) {
                                     listViewModel.updateItem(item: item)
@@ -34,15 +34,15 @@ struct ListView: View {
             }
         }
         .navigationTitle("Todo List 📝")
-        .navigationBarItems(leading: EditButton(), trailing: NavigationLink("Add", destination: AddView()))
+        .navigationBarItems(leading: EditButton(), trailing: NavigationLink("Add", destination: AddItemView()))
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ListView()
+            MainView()
         }
-        .environmentObject(ListViewModel())
+        .environmentObject(MainViewModel())
     }
 }

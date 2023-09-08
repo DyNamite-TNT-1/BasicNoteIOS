@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListRowView: View {
+struct NoteItemView: View {
     let item: NoteModel
     
     var body: some View {
@@ -28,8 +28,8 @@ struct ListRowView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ListRowView(item: item1)
-            ListRowView(item: item2)
+            NoteItemView(item: item1)
+            NoteItemView(item: item2)
         }
         .previewLayout(.sizeThatFits)
     }

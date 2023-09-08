@@ -17,9 +17,9 @@ import Foundation
  
  */
 
-class ListViewModel:ObservableObject {
+class MainViewModel:ObservableObject {
     @Published var items: [NoteModel] = [] {
-        didSet {//didSet will run whether items is changed
+        didSet {//didSet is called whether items is changed
             saveItem()
         }
     }

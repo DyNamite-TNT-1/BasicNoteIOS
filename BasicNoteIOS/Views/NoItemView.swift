@@ -21,7 +21,7 @@ struct NoItemView: View {
                 Text("Are you a productive person? I think you should click the add button and add a bunch of items to your todo list!")
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 20)
-                NavigationLink(destination: AddView(), label: {
+                NavigationLink(destination: AddItemView(), label: {
                     Text("Add Something 🥳")
                         .foregroundColor(.white)
                         .font(.headline)

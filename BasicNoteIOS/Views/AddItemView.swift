@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct AddView: View {
+struct AddItemView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var listViewModel: ListViewModel
+    @EnvironmentObject var listViewModel: MainViewModel
     @State var textFieldText: String = ""
     
     @State var alertTitle: String = ""
@@ -64,15 +64,15 @@ struct AddView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView{
-                AddView()
+                AddItemView()
             }
             .preferredColorScheme(.light)
-            .environmentObject(ListViewModel())
+            .environmentObject(MainViewModel())
             NavigationView{
-                AddView()
+                AddItemView()
             }
             .preferredColorScheme(.dark)
-            .environmentObject(ListViewModel())
+            .environmentObject(MainViewModel())
         }
     }
 }
