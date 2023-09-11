@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct AddItemView: View {
     
@@ -17,36 +18,67 @@ struct AddItemView: View {
     @State var alertTitle: String = ""
     @State var showAlert: Bool = false
     
+    @State var selectedPhoto: PhotosPickerItem?
+    @State var selectedPhotoData: Data?
+    
     var body: some View {
-        ScrollView{
-            VStack {
+        List {
+            Section("Todo title") {
                 TextField("Type title here...", text: $titleTxtField)
-                    .padding(.horizontal)
-                    .frame(height: 55)
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(10)
+            }
+            Section("Todo description") {
                 TextField("Type description here...", text: $descriptionTxtField, axis: .vertical)
-                    .padding()
-                    .frame(height: 100, alignment: .top)
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(10)
-                Button(action: saveButtonPressed, label: {
-                    Text("Save".uppercased())
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .frame(height: 55)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.accentColor)
-                        .cornerRadius(10)
-                })
-            }.padding(14)
-        }.navigationTitle("Add an Item 🖊")
-            .alert(isPresented: $showAlert, content: getAlert)
+            }
+            Section {
+                
+                if let selectedPhotoData, let uiImage = UIImage(data: selectedPhotoData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxHeight: 300)
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .zIndex(-1)
+                }
+                
+                PhotosPicker(selection: $selectedPhoto,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    Label("Add Image", systemImage: "photo")
+                }
+                
+                if selectedPhotoData != nil {
+                    Button(role: .destructive) {
+                        withAnimation{
+                            selectedPhoto = nil
+                            selectedPhotoData = nil
+                        }
+                    } label: {
+                        Label("Remove Image", systemImage: "xmark")
+                            .foregroundStyle(.red)
+                    }
+                }
+            }
+            
+            Section {
+                Button("Save") {
+                    saveButtonPressed()
+                }
+            }
+        }
+        .navigationTitle("Add an Item 🖊")
+        .alert(isPresented: $showAlert, content: getAlert)
+        .toolbar {}
+        .task(id: selectedPhoto) {
+            if let data = try? await selectedPhoto?.loadTransferable(type: Data.self){
+                selectedPhotoData = data
+            }
+        }
     }
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            listViewModel.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date())
+            listViewModel.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData)
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }

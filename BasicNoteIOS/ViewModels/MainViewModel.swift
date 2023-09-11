@@ -56,8 +56,8 @@ class MainViewModel:ObservableObject {
         self.renderItems = self.items
     }
     
-    func addItem(title: String, description: String, createDate: Date) {
-        let newItem = NoteModel(title: title, desctiption: description, createDate: createDate, isCompleted: false)
+    func addItem(title: String, description: String, createDate: Date, image: Data? = nil) {
+        let newItem = NoteModel(title: title, desctiption: description, createDate: createDate, isCompleted: false, image: image)
         items.append(newItem)
         self.renderItems = self.items
     }
