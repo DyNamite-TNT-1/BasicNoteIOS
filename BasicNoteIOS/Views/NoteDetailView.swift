@@ -12,30 +12,51 @@ struct NoteDetailView: View {
     let mainColor = Color("MainColor")
     
     var body: some View {
-        VStack(alignment: .leading){
-            Text(item.title)
-                .font(.title)
+        VStack{
             HStack{
-                Text("Create Date")
-                    .font(.subheadline)
+                Text("Status:")
+                    .font(.footnote)
+                Spacer()
+                Text(item.isCompleted ? "Done" : "Undone")
+                    .padding(.horizontal)
+                    .padding(.vertical, 2)
+                    .background(item.isCompleted ? .green : .red)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal)
+            HStack{
+                Text("Created/Updated Date:")
+                    .font(.footnote)
+                Spacer()
                 Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
             }
-            Text("Description")
-                .font(.footnote)
-            Text(item.desctiption)
+            .padding(.horizontal)
+            Text(item.desctiption.isEmpty ? "<No description here>" : item.desctiption)
+                .frame(maxWidth: .infinity)
+                .padding(8)
+                .background(.gray)
+                .cornerRadius(10)
+                .padding(.horizontal)
+                .padding(.vertical, 2)
+            Spacer()
         }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .topLeading)
-        
+        .navigationTitle(item.title)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct NoteDetailView_Previews: PreviewProvider {
-    static var item1 = NoteModel(title: "First item!", desctiption: "This is description! You need to do follow step by step. If not, you will fail.", createDate: Date(), isCompleted: false);
     
     static var previews: some View {
-        NoteDetailView(item: item1)
+        Group
+        {
+            NavigationStack {
+                NoteDetailView(item: NoteModel.exampleDone)
+            }
+            NavigationStack {
+                NoteDetailView(item: NoteModel.exampleUndone)
+            }
+        }
     }
 }
+

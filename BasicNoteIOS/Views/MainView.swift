@@ -21,16 +21,15 @@ struct MainView: View {
                 List {
                     ForEach(listViewModel.renderItems) {
                         item in
-                        NoteItemView(item: item, onToggleDone: {
-                            withAnimation(.linear) {
-                                listViewModel.updateItem(item: item)
-                            }
-                        })
-//                        .onTapGesture {
-//                            withAnimation(.linear) {
-//                                listViewModel.updateItem(item: item)
-//                            }
-//                        }
+                        NavigationLink {
+                            NoteDetailView(item: item)
+                        } label: {
+                            NoteItemView(item: item, onToggleDone: {
+                                withAnimation(.linear) {
+                                    listViewModel.updateItem(item: item)
+                                }
+                            })
+                        }
                     }
                     .onDelete(perform: listViewModel.deleteItem)
                     .onMove(perform: listViewModel.moveItem)
@@ -42,9 +41,9 @@ struct MainView: View {
             }
         }
         .navigationTitle("Todo List 📝")
-        .navigationBarItems(leading: EditButton(), trailing: HStack {
-            NavigationLink("Add", destination: AddItemView())
-        })
+        .navigationBarItems(leading: EditButton(), trailing:
+                                NavigationLink("Add", destination: AddItemView())
+        )
     }
 }
 
