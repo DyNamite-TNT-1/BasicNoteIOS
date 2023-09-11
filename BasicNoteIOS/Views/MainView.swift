@@ -24,7 +24,7 @@ struct MainView: View {
                         NavigationLink {
                             NoteDetailView(item: item)
                         } label: {
-                            NoteItemView(item: item, onToggleDone: {
+                            NoteItemRowView(item: item, onToggleDone: {
                                 withAnimation(.linear) {
                                     listViewModel.updateItem(item: item)
                                 }

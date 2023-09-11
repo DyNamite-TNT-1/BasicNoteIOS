@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9223BED62AAF087000DFADAC /* SwiftUIImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 9223BED52AAF087000DFADAC /* SwiftUIImageViewer */; };
 		926EA5922AA82A980092D881 /* BasicNoteIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5912AA82A980092D881 /* BasicNoteIOSApp.swift */; };
 		926EA5962AA82A990092D881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926EA5952AA82A990092D881 /* Assets.xcassets */; };
 		926EA5992AA82A990092D881 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926EA5982AA82A990092D881 /* Preview Assets.xcassets */; };
 		926EA5A32AA82E290092D881 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A22AA82E290092D881 /* NoteModel.swift */; };
 		926EA5A52AA82E790092D881 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A42AA82E790092D881 /* MainView.swift */; };
-		926EA5A72AA82EBB0092D881 /* NoteItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A62AA82EBB0092D881 /* NoteItemView.swift */; };
+		926EA5A72AA82EBB0092D881 /* NoteItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A62AA82EBB0092D881 /* NoteItemRowView.swift */; };
 		926EA5A92AA82ECE0092D881 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5A82AA82ECE0092D881 /* AddItemView.swift */; };
 		926EA5AB2AA8348F0092D881 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AA2AA8348F0092D881 /* MainViewModel.swift */; };
 		926EA5AD2AA85D150092D881 /* NoNoteDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AC2AA85D150092D881 /* NoNoteDataView.swift */; };
@@ -27,7 +28,7 @@
 		926EA5982AA82A990092D881 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		926EA5A22AA82E290092D881 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		926EA5A42AA82E790092D881 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		926EA5A62AA82EBB0092D881 /* NoteItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItemView.swift; sourceTree = "<group>"; };
+		926EA5A62AA82EBB0092D881 /* NoteItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItemRowView.swift; sourceTree = "<group>"; };
 		926EA5A82AA82ECE0092D881 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
 		926EA5AA2AA8348F0092D881 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		926EA5AC2AA85D150092D881 /* NoNoteDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNoteDataView.swift; sourceTree = "<group>"; };
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9223BED62AAF087000DFADAC /* SwiftUIImageViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				926EA5A42AA82E790092D881 /* MainView.swift */,
-				926EA5A62AA82EBB0092D881 /* NoteItemView.swift */,
+				926EA5A62AA82EBB0092D881 /* NoteItemRowView.swift */,
 				926EA5A82AA82ECE0092D881 /* AddItemView.swift */,
 				926EA5AC2AA85D150092D881 /* NoNoteDataView.swift */,
 				926EA5AF2AA873940092D881 /* LaunchScreen.storyboard */,
@@ -128,6 +130,9 @@
 			dependencies = (
 			);
 			name = BasicNoteIOS;
+			packageProductDependencies = (
+				9223BED52AAF087000DFADAC /* SwiftUIImageViewer */,
+			);
 			productName = BasicNoteIOS;
 			productReference = 926EA58E2AA82A980092D881 /* BasicNoteIOS.app */;
 			productType = "com.apple.product-type.application";
@@ -156,6 +161,9 @@
 				Base,
 			);
 			mainGroup = 926EA5852AA82A970092D881;
+			packageReferences = (
+				9223BED42AAF087000DFADAC /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
+			);
 			productRefGroup = 926EA58F2AA82A980092D881 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -188,7 +196,7 @@
 				926EA5A92AA82ECE0092D881 /* AddItemView.swift in Sources */,
 				92842C602AAB169400DD4900 /* NoteDetailView.swift in Sources */,
 				926EA5AB2AA8348F0092D881 /* MainViewModel.swift in Sources */,
-				926EA5A72AA82EBB0092D881 /* NoteItemView.swift in Sources */,
+				926EA5A72AA82EBB0092D881 /* NoteItemRowView.swift in Sources */,
 				926EA5A32AA82E290092D881 /* NoteModel.swift in Sources */,
 				926EA5922AA82A980092D881 /* BasicNoteIOSApp.swift in Sources */,
 			);
@@ -393,6 +401,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9223BED42AAF087000DFADAC /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fuzzzlove/swiftui-image-viewer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9223BED52AAF087000DFADAC /* SwiftUIImageViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9223BED42AAF087000DFADAC /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = SwiftUIImageViewer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 926EA5862AA82A970092D881 /* Project object */;
 }

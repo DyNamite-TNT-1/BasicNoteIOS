@@ -29,7 +29,7 @@ struct AddItemView: View {
             Section("Todo description") {
                 TextField("Type description here...", text: $descriptionTxtField, axis: .vertical)
             }
-            Section {
+            Section("Image") {
                 
                 if let selectedPhotoData, let uiImage = UIImage(data: selectedPhotoData) {
                     Image(uiImage: uiImage)
@@ -59,14 +59,11 @@ struct AddItemView: View {
                     }
                 }
             }
-            
-            Section {
-                Button("Save") {
-                    saveButtonPressed()
-                }
-            }
         }
-        .navigationTitle("Add an Item 🖊")
+        .navigationTitle("Note your note🖊")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing:
+                                Button("Save") {saveButtonPressed()})
         .alert(isPresented: $showAlert, content: getAlert)
         .toolbar {}
         .task(id: selectedPhoto) {

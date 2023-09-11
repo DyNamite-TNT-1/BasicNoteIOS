@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import SwiftUIImageViewer
 
 struct NoteDetailView: View {
     let item: NoteModel
     let mainColor = Color("MainColor")
+    
+    @State private var isImageViewerPresented = false
     
     var body: some View {
         VStack{
@@ -38,6 +41,36 @@ struct NoteDetailView: View {
                 .cornerRadius(10)
                 .padding(.horizontal)
                 .padding(.vertical, 2)
+                .multilineTextAlignment(.leading)
+            
+            if let selectedPhotoData = item.image, let uiImage = UIImage(data: selectedPhotoData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxHeight: 200)
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .zIndex(-1)
+                    .padding()
+                    .onTapGesture {
+                        isImageViewerPresented = true
+                    }
+                    .fullScreenCover(isPresented: $isImageViewerPresented) {
+                        SwiftUIImageViewer(image: Image(uiImage: uiImage))
+                            .overlay(alignment: .topTrailing) {
+                                Button{
+                                    isImageViewerPresented = false
+                                } label: {
+                                    Image(systemName: "xmark")
+                                        .font(.headline)
+                                }
+                                .buttonStyle(.bordered)
+                                .clipShape(Circle())
+                                .tint(.purple)
+                                .padding()
+                            }
+                    }
+            }
             Spacer()
         }
         .navigationTitle(item.title)
