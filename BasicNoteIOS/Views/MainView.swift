@@ -38,6 +38,7 @@ struct MainView: View {
                 .onChange(of: query) { newQuery in
                     listViewModel.searchItems(query: newQuery)
                 }
+                .animation(.default, value: query)
             }
         }
         .navigationTitle("Todo List 📝")
