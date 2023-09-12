@@ -34,7 +34,7 @@ struct MainView: View {
                     .onDelete(perform: listViewModel.deleteItem)
                     .onMove(perform: listViewModel.moveItem)
                 }
-                .searchable(text: $query, prompt: "Find a note")
+                .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a note")
                 .onChange(of: query) { newQuery in
                     listViewModel.searchItems(query: newQuery)
                 }
