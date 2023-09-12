@@ -2,7 +2,7 @@
 //  NoteDetailView.swift
 //  BasicNoteIOS
 //
-//  Created by hanbiro on 9/8/23.
+//  Created by hanbiro - ANHDUC on 9/8/23.
 //
 
 import SwiftUI

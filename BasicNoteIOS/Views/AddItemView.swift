@@ -2,7 +2,7 @@
 //  AddView.swift
 //  BasicNoteIOS
 //
-//  Created by hanbiro on 9/6/23.
+//  Created by hanbiro - ANHDUC on 9/6/23.
 //
 
 import SwiftUI
