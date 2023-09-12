@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 /*
  CRUD FUNCTIONS
  
@@ -17,7 +17,7 @@ import Foundation
  
  */
 
-class MainViewModel:ObservableObject {
+class MainViewModel: ObservableObject {
     //[items] are real items that is saved to and retrieved from local storage(UserDefaults)
     @Published var items: [NoteModel] = [] {
         didSet {//didSet is called whether items is changed
@@ -32,6 +32,15 @@ class MainViewModel:ObservableObject {
     @Published var renderItems: [NoteModel] = []
     
     let itemsKey: String = "items_list"
+    
+    var filterDatas = [
+        FilterData(imageName: "airplane", title: "Travel"),
+        FilterData(imageName: "tag.fill", title: "Price"),
+        FilterData(imageName: "bed.double.fill", title: "Product"),
+        FilterData(imageName: "car.fill", title: "Vehicle"),
+    ]
+    
+    @Published var selection = [FilterData]()
     
     init() {
         getItems()
@@ -86,5 +95,30 @@ class MainViewModel:ObservableObject {
         self.renderItems = query.isEmpty ? self.items : self.items.filter({ item in
             item.title.lowercased().contains(lowerQuery) || item.desctiption.lowercased().contains(lowerQuery)
         })
+    }
+    
+    //remakes the published selection list
+    private func refreshSelection() {
+        let result = filterDatas.filter { filter in
+            filter.isSelected
+        }
+        withAnimation {
+            selection = result
+        }
+    }
+    
+    //toggle the selection of the filter at the given index
+    func toggleFilter(at index: Int) {
+        guard index >= 0 && index < filterDatas.count else { return }
+        filterDatas[index].isSelected.toggle()
+        refreshSelection()
+    }
+    
+    //clears the selected filters
+    func clearSelection() {
+        for index in 0..<filterDatas.count {
+            filterDatas[index].isSelected = false
+        }
+        refreshSelection()
     }
 }
