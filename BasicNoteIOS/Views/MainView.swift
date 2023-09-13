@@ -9,36 +9,36 @@ import SwiftUI
 
 struct MainView: View {
     
-    @EnvironmentObject var listViewModel: MainViewModel
+    @EnvironmentObject var mainViewModel: MainViewModel
     @State private var query = ""
     @State var isShowFilterDialog: Bool = false
     
     var body: some View {
         ZStack {
-            if listViewModel.items.isEmpty {
+            if mainViewModel.items.isEmpty {
                 NoNoteDataView()
                     .transition(AnyTransition.opacity.animation(.easeIn))
             } else {
                 List {
-                    ForEach(listViewModel.renderItems) {
+                    ForEach(mainViewModel.renderItems) {
                         item in
                         NavigationLink {
                             NoteDetailView(item: item)
                         } label: {
                             NoteItemRowView(item: item, onToggleDone: {
                                 withAnimation(.linear) {
-                                    listViewModel.updateItem(item: item)
+                                    mainViewModel.updateItem(item: item)
                                 }
                             })
                         }
                     }
-                    .onDelete(perform: listViewModel.deleteItem)
+                    .onDelete(perform: mainViewModel.deleteItem)
                     //disable onMove due to conflict with sorting, review the business later
-//                    .onMove(perform: listViewModel.moveItem)
+//                    .onMove(perform: mainViewModel.moveItem)
                 }
                 .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a note")
                 .onChange(of: query) { newQuery in
-                    listViewModel.searchItems(query: newQuery)
+                    mainViewModel.searchItems(query: newQuery)
                 }
                 .animation(.default, value: query)
             }

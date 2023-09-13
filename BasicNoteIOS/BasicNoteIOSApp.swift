@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct BasicNoteIOSApp: App {
     
-    @StateObject var listViewModel: MainViewModel = MainViewModel()
+    @StateObject var mainViewModel: MainViewModel = MainViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -18,7 +18,7 @@ struct BasicNoteIOSApp: App {
                 MainView()
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .environmentObject(listViewModel)
+            .environmentObject(mainViewModel)
         }
     }
 }

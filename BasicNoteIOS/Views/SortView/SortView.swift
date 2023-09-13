@@ -9,24 +9,24 @@ import SwiftUI
 
 struct SortView: View {
     
-    @EnvironmentObject var listViewModel: MainViewModel
+    @EnvironmentObject var mainViewModel: MainViewModel
     
     var body: some View {
         Menu {
-            ForEach(0..<listViewModel.sortDatas.count, id: \.self){index in
+            ForEach(0..<mainViewModel.sortDatas.count, id: \.self){index in
                 Button {
-                    listViewModel.toggleSort(at: index)
+                    mainViewModel.toggleSort(at: index)
                 } label: {
-                    if listViewModel.sortDatas[index].isSelected {
-                            Label(listViewModel.sortDatas[index].title, systemImage: "checkmark")
+                    if mainViewModel.sortDatas[index].isSelected {
+                            Label(mainViewModel.sortDatas[index].title, systemImage: "checkmark")
                     } else {
-                        Text(listViewModel.sortDatas[index].title)
+                        Text(mainViewModel.sortDatas[index].title)
                     }
                     
                 }
             }
         } label: {
-            Label(listViewModel.sortSelection.title, systemImage: "arrow.up.arrow.down.circle")
+            Label(mainViewModel.sortSelection.title, systemImage: "arrow.up.arrow.down.circle")
         }
 
     }

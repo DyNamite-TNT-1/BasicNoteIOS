@@ -11,7 +11,7 @@ import PhotosUI
 struct AddItemView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var listViewModel: MainViewModel
+    @EnvironmentObject var mainViewModel: MainViewModel
     @State var titleTxtField: String = ""
     @State var descriptionTxtField: String = ""
     
@@ -75,7 +75,7 @@ struct AddItemView: View {
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            listViewModel.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData)
+            mainViewModel.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData)
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }

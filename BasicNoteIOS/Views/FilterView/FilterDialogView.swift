@@ -12,7 +12,7 @@ struct FilterDialogView: View {
     @Binding var isActive: Bool
     let buttonTitle: String
     let action: () -> Void
-    @EnvironmentObject var listViewModel: MainViewModel
+    @EnvironmentObject var mainViewModel: MainViewModel
     @State private var offset: CGFloat = 1000
     
     var body: some View {
@@ -29,10 +29,10 @@ struct FilterDialogView: View {
                     .padding()
                 FilterBar()
                 List {
-                    ForEach(0..<listViewModel.filterDatas.count, id: \.self) {index in
-                        FilterTag(filterData: listViewModel.filterDatas[index])
+                    ForEach(0..<mainViewModel.filterDatas.count, id: \.self) {index in
+                        FilterTag(filterData: mainViewModel.filterDatas[index])
                             .onTapGesture {
-                                listViewModel.toggleFilter(at: index)
+                                mainViewModel.toggleFilter(at: index)
                             }
                     }
                 }
