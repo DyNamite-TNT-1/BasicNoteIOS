@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct FilterData: Identifiable {
+struct FilterModel: Identifiable {
     var id = UUID()
     var imageName: String
     var title: String
     var isSelected: Bool = false
     
-    static let example = FilterData(imageName: "airplane", title: "Travel")
+    static let example = FilterModel(imageName: "airplane", title: "Travel")
 }
 

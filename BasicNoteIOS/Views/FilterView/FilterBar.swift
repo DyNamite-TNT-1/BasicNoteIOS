@@ -17,7 +17,7 @@ struct FilterBar: View {
                 .foregroundColor(.gray)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack{
-                    ForEach(listViewModel.selection) {item in
+                    ForEach(listViewModel.filterSelections) {item in
                         FilterTag(filterData: item)
                     }
                 }

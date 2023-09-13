@@ -11,6 +11,7 @@ struct MainView: View {
     
     @EnvironmentObject var listViewModel: MainViewModel
     @State private var query = ""
+    @State var isShowFilterDialog: Bool = false
     
     var body: some View {
         ZStack {
@@ -32,7 +33,8 @@ struct MainView: View {
                         }
                     }
                     .onDelete(perform: listViewModel.deleteItem)
-                    .onMove(perform: listViewModel.moveItem)
+                    //disable onMove due to conflict with sorting, review the business later
+//                    .onMove(perform: listViewModel.moveItem)
                 }
                 .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a note")
                 .onChange(of: query) { newQuery in
@@ -40,10 +42,25 @@ struct MainView: View {
                 }
                 .animation(.default, value: query)
             }
+            if isShowFilterDialog {
+                FilterDialogView(isActive: $isShowFilterDialog, buttonTitle: "Filter", action: {})
+            }
         }
         .navigationTitle("Todo List 📝")
-        .navigationBarItems(leading: EditButton(), trailing:
-                                NavigationLink("Add", destination: AddItemView())
+        .navigationBarItems(leading: EditButton(),
+                            trailing:
+                                HStack{
+            Button("Filter") {
+                isShowFilterDialog.toggle()
+            }
+            NavigationLink {
+                AddItemView()
+            } label: {
+                Label("Add", systemImage: "plus.circle")
+            }
+            SortView()
+            
+        }
         )
     }
 }

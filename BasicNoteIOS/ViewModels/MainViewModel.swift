@@ -34,13 +34,23 @@ class MainViewModel: ObservableObject {
     let itemsKey: String = "items_list"
     
     var filterDatas = [
-        FilterData(imageName: "airplane", title: "Travel"),
-        FilterData(imageName: "tag.fill", title: "Price"),
-        FilterData(imageName: "bed.double.fill", title: "Product"),
-        FilterData(imageName: "car.fill", title: "Vehicle"),
+        FilterModel(imageName: "airplane", title: "Travel"),
+        FilterModel(imageName: "tag.fill", title: "Price"),
+        FilterModel(imageName: "bed.double.fill", title: "Product"),
+        FilterModel(imageName: "car.fill", title: "Vehicle"),
     ]
     
-    @Published var selection = [FilterData]()
+    @Published var filterSelections = [FilterModel]()
+    
+    var sortDatas = [
+//        SortModel(title: "None", type: 0, order: 0),
+        SortModel(title: "Title Asc", type: 1, order: 1),
+        SortModel(title: "Title Desc", type: 1, order: -1),
+        SortModel(title: "Date Asc", type: 2, order: 1),
+        SortModel(title: "Date Desc", type: 2, order: -1, isSelected:  true),
+    ]
+    
+    @Published var sortSelection: SortModel = SortModel.example
     
     init() {
         getItems()
@@ -52,14 +62,36 @@ class MainViewModel: ObservableObject {
             let savedItems = try? JSONDecoder().decode([NoteModel].self, from: data)
         else { return }
         self.items = savedItems
-        self.renderItems = self.items
+        self.sortSelection = self.sortDatas.first(where: { $0.type == 2 && $0.order == -1}) ?? SortModel(title: "Date Desc", type: 2, order: -1) //init sort by date desc
+        refreshRenderItem()
     }
     
+    func refreshRenderItem() {
+        self.renderItems = self.items.sorted(by: {
+            sortByThis(firstNote: $0, secondNote: $1)
+        })
+    }
+    
+    /*
+     Because delete item on renderItem(UI), so firstly, find the item on [items], then delete on [items]
+     */
     func deleteItem(indexSet: IndexSet) {
-        items.remove(atOffsets: indexSet)
-        self.renderItems = self.items
+        indexSet.forEach { index in
+            items.remove(at: items.firstIndex(where: {
+                $0.id == renderItems[index].id
+            })!)
+        }
+        refreshRenderItem()
     }
     
+    /*
+     This func not correct, since the sorting feature was added.
+     Previously, this feature was made to learn swiftui. So, this no need in business.
+     Solutions:
+        + Remove this forever.
+        + Add a new sorter called "None". If move item, apply this sorter.
+     Last updated: temporarily, disable this to update later.
+     */
     func moveItem(from: IndexSet, to: Int) {
         items.move(fromOffsets: from, toOffset: to);
         self.renderItems = self.items
@@ -68,7 +100,7 @@ class MainViewModel: ObservableObject {
     func addItem(title: String, description: String, createDate: Date, image: Data? = nil) {
         let newItem = NoteModel(title: title, desctiption: description, createDate: createDate, isCompleted: false, image: image)
         items.append(newItem)
-        self.renderItems = self.items
+        refreshRenderItem()
     }
     
     /*
@@ -92,18 +124,21 @@ class MainViewModel: ObservableObject {
     
     func searchItems(query: String) {
         let lowerQuery = query.lowercased()
-        self.renderItems = query.isEmpty ? self.items : self.items.filter({ item in
+        let tmpItems: [NoteModel] = query.isEmpty ? self.items : self.items.filter({ item in
             item.title.lowercased().contains(lowerQuery) || item.desctiption.lowercased().contains(lowerQuery)
+        })
+        self.renderItems = tmpItems.sorted(by: {
+            sortByThis(firstNote: $0, secondNote: $1)
         })
     }
     
-    //remakes the published selection list
-    private func refreshSelection() {
+    //remakes the published filter selection list
+    private func refreshFilterSelection() {
         let result = filterDatas.filter { filter in
             filter.isSelected
         }
         withAnimation {
-            selection = result
+            filterSelections = result
         }
     }
     
@@ -111,7 +146,7 @@ class MainViewModel: ObservableObject {
     func toggleFilter(at index: Int) {
         guard index >= 0 && index < filterDatas.count else { return }
         filterDatas[index].isSelected.toggle()
-        refreshSelection()
+        refreshFilterSelection()
     }
     
     //clears the selected filters
@@ -119,6 +154,42 @@ class MainViewModel: ObservableObject {
         for index in 0..<filterDatas.count {
             filterDatas[index].isSelected = false
         }
-        refreshSelection()
+        refreshFilterSelection()
+    }
+    
+    //remakes the published sort selection
+    private func refreshSortSelection() {
+        let result = sortDatas.first { sort in
+            sort.isSelected
+        }
+        withAnimation {
+            sortSelection = result!
+        }
+    }
+    
+    //toggle ONE selection of the sort at the given index
+    func toggleSort(at index: Int) {
+        guard index >= 0 && index < sortDatas.count else { return }
+        for index in 0..<sortDatas.count {
+            sortDatas[index].isSelected = false
+        }
+        sortDatas[index].isSelected.toggle()
+        refreshSortSelection()
+        refreshRenderItem()
+    }
+    
+    private func sortByThis(firstNote: NoteModel, secondNote: NoteModel) -> Bool {
+        switch (self.sortSelection.type, self.sortSelection.order) {
+        case (1, 1):
+            return firstNote.title.lowercased() < secondNote.title.lowercased()
+        case (1, -1):
+            return firstNote.title.lowercased() > secondNote.title.lowercased()
+        case (2, 1):
+            return firstNote.createDate < secondNote.createDate
+        case (2, -1):
+            return firstNote.createDate > secondNote.createDate
+        default:
+            return firstNote.createDate > secondNote.createDate
+        }
     }
 }

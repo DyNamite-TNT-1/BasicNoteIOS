@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FilterTag: View {
     
-    var filterData: FilterData
+    var filterData: FilterModel
     
     var body: some View {
         Label(filterData.title, systemImage: filterData.imageName)
@@ -29,6 +29,6 @@ struct FilterTag: View {
 struct FilterTag_Previews: PreviewProvider {
     
     static var previews: some View {
-        FilterTag(filterData: FilterData.example)
+        FilterTag(filterData: FilterModel.example)
     }
 }
