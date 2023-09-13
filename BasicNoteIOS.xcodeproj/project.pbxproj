@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		920B930A2AB0173300EC7629 /* FilterDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920B93092AB0173300EC7629 /* FilterDialogView.swift */; };
+		920B930A2AB0173300EC7629 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920B93092AB0173300EC7629 /* FilterView.swift */; };
 		921676FA2AB157E000A5B074 /* SortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921676F92AB157E000A5B074 /* SortView.swift */; };
 		921676FC2AB1606300A5B074 /* SortModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921676FB2AB1606300A5B074 /* SortModel.swift */; };
 		9223BED62AAF087000DFADAC /* SwiftUIImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 9223BED52AAF087000DFADAC /* SwiftUIImageViewer */; };
@@ -28,7 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		920B93092AB0173300EC7629 /* FilterDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDialogView.swift; sourceTree = "<group>"; };
+		920B93092AB0173300EC7629 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		921676F92AB157E000A5B074 /* SortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortView.swift; sourceTree = "<group>"; };
 		921676FB2AB1606300A5B074 /* SortModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortModel.swift; sourceTree = "<group>"; };
 		926EA58E2AA82A980092D881 /* BasicNoteIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasicNoteIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,7 +143,7 @@
 			children = (
 				928E50842AB010AE00D29756 /* FilterTag.swift */,
 				928E50872AB0146600D29756 /* FilterBar.swift */,
-				920B93092AB0173300EC7629 /* FilterDialogView.swift */,
+				920B93092AB0173300EC7629 /* FilterView.swift */,
 			);
 			path = FilterView;
 			sourceTree = "<group>";
@@ -229,7 +229,7 @@
 				928E50852AB010AE00D29756 /* FilterTag.swift in Sources */,
 				926EA5A52AA82E790092D881 /* MainView.swift in Sources */,
 				928E50832AB00D6F00D29756 /* FilterModel.swift in Sources */,
-				920B930A2AB0173300EC7629 /* FilterDialogView.swift in Sources */,
+				920B930A2AB0173300EC7629 /* FilterView.swift in Sources */,
 				926EA5AD2AA85D150092D881 /* NoNoteDataView.swift in Sources */,
 				926EA5A92AA82ECE0092D881 /* AddItemView.swift in Sources */,
 				92842C602AAB169400DD4900 /* NoteDetailView.swift in Sources */,

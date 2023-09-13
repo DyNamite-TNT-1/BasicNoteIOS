@@ -13,7 +13,7 @@ struct FilterBar: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "magnifyingglass")
+            Image(systemName: "line.3.horizontal.decrease.circle")
                 .foregroundColor(.gray)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack{

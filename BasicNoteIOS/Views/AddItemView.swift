@@ -60,7 +60,7 @@ struct AddItemView: View {
                 }
             }
         }
-        .navigationTitle("Note your note🖊")
+        .navigationTitle("Add your note🖊")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing:
                                 Button("Save") {saveButtonPressed()})

@@ -11,7 +11,7 @@ struct MainView: View {
     
     @EnvironmentObject var mainViewModel: MainViewModel
     @State private var query = ""
-    @State var isShowFilterDialog: Bool = false
+    @State var isShowFilterSheet: Bool = false
     
     var body: some View {
         ZStack {
@@ -34,7 +34,7 @@ struct MainView: View {
                     }
                     .onDelete(perform: mainViewModel.deleteItem)
                     //disable onMove due to conflict with sorting, review the business later
-//                    .onMove(perform: mainViewModel.moveItem)
+                    //                    .onMove(perform: mainViewModel.moveItem)
                 }
                 .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a note")
                 .onChange(of: query) { newQuery in
@@ -42,26 +42,37 @@ struct MainView: View {
                 }
                 .animation(.default, value: query)
             }
-            if isShowFilterDialog {
-                FilterDialogView(isActive: $isShowFilterDialog, buttonTitle: "Filter", action: {})
-            }
         }
         .navigationTitle("Todo List 📝")
         .navigationBarItems(leading: EditButton(),
                             trailing:
                                 HStack{
-            Button("Filter") {
-                isShowFilterDialog.toggle()
-            }
             NavigationLink {
                 AddItemView()
             } label: {
                 Label("Add", systemImage: "plus.circle")
             }
             SortView()
-            
+        })
+        .safeAreaInset(edge: .bottom, alignment: .leading) {
+            Button {
+                isShowFilterSheet.toggle()
+            } label: {
+                Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
+                    .bold()
+                    .font(.title2)
+                    .padding(8)
+                    .background(.gray.opacity(0.1),
+                                in: Capsule())
+                    .padding(.leading, 8)
+                    .symbolVariant(.circle.fill)
+            }
         }
-        )
+        .sheet(isPresented: $isShowFilterSheet) {
+            NavigationStack {
+                FilterView(buttonTitle: "Filter", action: {})
+            }
+        }
     }
 }
 
