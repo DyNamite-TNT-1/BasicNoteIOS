@@ -2,7 +2,7 @@
 //  MainViewModel.swift
 //  BasicNoteIOS
 //
-//  Created by hanbiro on 9/6/23.
+//  Created by hanbiro - ANHDUC on 9/6/23.
 //
 
 import Foundation
@@ -18,16 +18,15 @@ import SwiftUI
  */
 
 class MainViewModel: ObservableObject {
-    //[items] are real items that is saved to and retrieved from local storage(UserDefaults)
+    /// `[items]` are real items that is saved to and retrieved from local storage(UserDefaults)
     @Published var items: [NoteModel] = [] {
         didSet {//didSet is called whether items is changed
             saveItem()
         }
     }
-    /*
-     [renderItems] are the items from [items] that will be displayed on UI.
-     It can be all or some, or even none, depending on the user's actions.
-     Like: adding, deleting, reading all, searching, filtering...
+    /**
+     `[renderItems]` are the items from [items] that will be displayed on UI.
+     It can be all or some, or even none, depending on the user's actions, like: adding, deleting, reading all, searching, filtering...
      */
     @Published var renderItems: [NoteModel] = []
     
@@ -39,6 +38,7 @@ class MainViewModel: ObservableObject {
         FilterModel(imageName: "circle", title: "Undone Note", type: -1),
     ]
     
+    ///`[filterSelections]` is the list of filter items that are selected by user
     @Published var filterSelections = [FilterModel]()
     
     var prevFilterSelections = [FilterModel]()
@@ -51,12 +51,14 @@ class MainViewModel: ObservableObject {
         SortModel(title: "Date Desc", type: 2, order: -1, isSelected:  true),
     ]
     
+    ///`[sortSelection]` is one sort item that is selected by user
     @Published var sortSelection: SortModel = SortModel.example
     
     init() {
         getItems()
     }
     
+    /// To retrieve real items from local storage
     func getItems() {
         guard
             let data = UserDefaults.standard.data(forKey: itemsKey),
@@ -67,12 +69,14 @@ class MainViewModel: ObservableObject {
         refreshRenderItem()
     }
     
+    /// To save real items to local storage
     func saveItem() {
         if let encodedData = try? JSONEncoder().encode(items) {
             UserDefaults.standard.set(encodedData, forKey: itemsKey)
         }
     }
     
+    /// To refresh `renderItems` by sort selection and filter selections
     func refreshRenderItem() {
         var onlyToday: Bool = false
         var isCompleted: Bool = false
