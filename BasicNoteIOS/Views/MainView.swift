@@ -54,7 +54,7 @@ struct MainView: View {
             }
             SortView()
         })
-        .safeAreaInset(edge: .bottom, alignment: .leading) {
+        .safeAreaInset(edge: .bottom, alignment: .trailing) {
             Button {
                 isShowFilterSheet.toggle()
             } label: {
@@ -64,13 +64,27 @@ struct MainView: View {
                     .padding(8)
                     .background(.gray.opacity(0.1),
                                 in: Capsule())
-                    .padding(.leading, 8)
+                    .padding(.trailing, 8)
                     .symbolVariant(.circle.fill)
             }
+            .overlay(alignment: .topLeading) {
+                Text("\(mainViewModel.filterSelections.count)")
+                    .font(.footnote)
+                    .foregroundColor(.white)
+                    .frame(width: 28, height: 28)
+                    .background(.blue, in: Capsule())
+                    .offset(x: -10, y: -15)
+                    .opacity(mainViewModel.filterSelections.isEmpty ? 0 : 1)
+            }
+            
         }
         .sheet(isPresented: $isShowFilterSheet) {
             NavigationStack {
-                FilterView(buttonTitle: "Filter", action: {})
+                FilterView(onDone: {
+                    mainViewModel.filterItems()
+                }, onDismiss: {
+                    mainViewModel.onDismissFilter()
+                })
             }
         }
     }

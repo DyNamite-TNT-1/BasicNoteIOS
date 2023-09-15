@@ -10,8 +10,8 @@ import SwiftUI
 struct FilterView: View {
     
     @Environment(\.dismiss) private var dismiss
-    let buttonTitle: String
-    let action: () -> Void
+    let onDone: () -> Void
+    let onDismiss: () -> Void
     @EnvironmentObject var mainViewModel: MainViewModel
     
     var body: some View {
@@ -34,12 +34,13 @@ struct FilterView: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Dismiss") {
                     dismiss()
+                    onDismiss()
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Done") {
-                    action()
                     dismiss()
+                    onDone()
                 }
             }
         }
@@ -49,7 +50,7 @@ struct FilterView: View {
 struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            FilterView(buttonTitle: "Filter",action: {})
+            FilterView(onDone: {}, onDismiss: {})
                 .environmentObject(MainViewModel())
         }
     }

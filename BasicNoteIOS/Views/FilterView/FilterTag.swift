@@ -13,7 +13,7 @@ struct FilterTag: View {
     
     var body: some View {
         Label(filterData.title, systemImage: filterData.imageName)
-            .font(.caption)
+            .font(.system(size: 16))
             .padding(4)
             .padding(.horizontal, 4)
             .foregroundColor(.white)

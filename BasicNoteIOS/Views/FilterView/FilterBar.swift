@@ -24,13 +24,13 @@ struct FilterBar: View {
             }
             Spacer()
             Button {
-                mainViewModel.clearSelection()
+                mainViewModel.clearFilterSelection()
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundColor(.black.opacity(0.6))
             }
         }
-        .frame(height: 20)
+        .frame(height: 28)
         .padding(6)
         .background(RoundedRectangle(cornerRadius: 8)
             .foregroundColor(.gray.opacity(0.5)))
