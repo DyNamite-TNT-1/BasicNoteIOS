@@ -33,15 +33,16 @@ struct NoteModel: Identifiable, Codable {
         return NoteModel(id: id, title: title, desctiption: desctiption, createDate:  createDate, isCompleted: !isCompleted, image: image)
     }
     
-    func chooseThis(isToday:Bool) -> Bool{
+    func chooseThis(onlyToday:Bool) -> Bool{
+        if (!onlyToday) {
+            return true
+        }
         let relativeDateFormatter = DateFormatter()
         relativeDateFormatter.timeStyle = .none
         relativeDateFormatter.dateStyle = .medium
         relativeDateFormatter.locale = Locale(identifier: "en_GB")
         relativeDateFormatter.doesRelativeDateFormatting = true
-        if (isToday && relativeDateFormatter.string(from: self.createDate) == "Today"){
-            return true
-        } else if (!isToday && relativeDateFormatter.string(from: self.createDate) != "Today"){
+        if (onlyToday && relativeDateFormatter.string(from: self.createDate) == "Today"){
             return true
         }
         return false
@@ -55,20 +56,20 @@ struct NoteModel: Identifiable, Codable {
         return !self.isCompleted && !self.isCompleted == isIncompleted
     }
     
-    func chooseThis(isToday:Bool, isCompleted: Bool, isIncompleted: Bool) -> Bool {
-        switch (isToday, isCompleted, isIncompleted) {
+    func chooseThis(onlyToday:Bool, isCompleted: Bool, isIncompleted: Bool) -> Bool {
+        switch (onlyToday, isCompleted, isIncompleted) {
         case (true, false, false):
-            return chooseThis(isToday: true)
+            return chooseThis(onlyToday: true)
         case (false, true, false):
             return chooseThis(isCompleted: true)
         case (false, false, true):
             return chooseThis(isIncompleted: true)
         case (true, true, true):
-            return chooseThis(isToday: true)
+            return chooseThis(onlyToday: true)
         case (false, false, false):
             return true
         default:
-            return chooseThis(isToday: isToday) && (chooseThis(isCompleted: isCompleted) || chooseThis(isIncompleted: isIncompleted))
+            return chooseThis(onlyToday: onlyToday) && (chooseThis(isCompleted: isCompleted) || chooseThis(isIncompleted: isIncompleted))
         }
     }
 }

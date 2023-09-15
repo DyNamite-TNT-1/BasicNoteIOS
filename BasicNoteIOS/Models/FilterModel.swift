@@ -12,7 +12,7 @@ struct FilterModel: Identifiable {
     var imageName: String
     var title: String
     var isSelected: Bool = false
-    var type: Int//0: today, -1: undone, 1: done
+    var type: Int//0: only today or all day, -1: undone, 1: done
     
     static let example = FilterModel(imageName: "bookmark.circle", title: "Today", type: 0)
 }

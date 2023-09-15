@@ -34,9 +34,9 @@ class MainViewModel: ObservableObject {
     let itemsKey: String = "items_list"
     
     var filterDatas = [
-        FilterModel(imageName: "bookmark.circle", title: "Today", type: 0),
-        FilterModel(imageName: "checkmark.circle", title: "Done", type: 1),
-        FilterModel(imageName: "circle", title: "Undone", type: -1),
+        FilterModel(imageName: "bookmark.circle", title: "Only Today", type: 0),
+        FilterModel(imageName: "checkmark.circle", title: "Done Note", type: 1),
+        FilterModel(imageName: "circle", title: "Undone Note", type: -1),
     ]
     
     @Published var filterSelections = [FilterModel]()
@@ -73,16 +73,30 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    func refreshRenderItem(notUseParamNotes: Bool = true, notes: [NoteModel] = []) {
-        if (notUseParamNotes) {
-            self.renderItems = self.items.sorted(by: {
-                sortByThis(firstNote: $0, secondNote: $1)
-            })
-        } else {
-            self.renderItems = notes.sorted(by: {
-                sortByThis(firstNote: $0, secondNote: $1)
-            })
+    func refreshRenderItem() {
+        var onlyToday: Bool = false
+        var isCompleted: Bool = false
+        var isIncompleted: Bool = false
+        self.filterSelections.forEach {
+            switch ($0.type){
+            case -1:
+                isIncompleted = true
+                break
+            case 0:
+                onlyToday = true
+                break
+            case 1:
+                isCompleted = true
+                break
+            default:
+                break
+            }
         }
+        self.renderItems =  self.items.filter {
+            $0.chooseThis(onlyToday: onlyToday, isCompleted: isCompleted, isIncompleted: isIncompleted)
+        }.sorted(by: {
+            sortByThis(firstNote: $0, secondNote: $1)
+        })
     }
     
     ///To delete Item at specificed positions.
@@ -100,7 +114,7 @@ class MainViewModel: ObservableObject {
     }
     
     /*
-     This func not correct, since the sorting feature was added.
+     This func not correct, since the sorting feature was added. Don't use it.
      Previously, this feature was made to learn swiftui. So, this no need in business.
      Solutions:
      + Remove this forever.
@@ -122,16 +136,10 @@ class MainViewModel: ObservableObject {
     /// - Parameters:
     ///     - item: specific item that will be updated.
     func updateItem(item: NoteModel) {
-        /*
-         When toggle done/undone, no need to re-assign the whole [items] to [renderItems].
-         Instead, update the item if the item is in [renderItems].
-         */
         if let index = items.firstIndex(where: { $0.id == item.id }) {
             items[index] = item.updateCompletion()
         }
-        if let index = renderItems.firstIndex(where: { $0.id == item.id }) {
-            renderItems[index] = item.updateCompletion()
-        }
+        refreshRenderItem()
     }
     
     /// To find all items that contain input query.
@@ -139,11 +147,13 @@ class MainViewModel: ObservableObject {
     ///     - query: content you want to search for .
     func searchItems(query: String) {
         let lowerQuery = query.lowercased()
-        /// Use [tmpItems] to save the items that contain `[query]`. After that, refresh [renderItems] by [tmpItems]
+        // Use [tmpItems] to save the items that contain [query]. After that, refresh [renderItems] by [tmpItems]
         let tmpItems: [NoteModel] = query.isEmpty ? self.items : self.items.filter({ item in
             item.title.lowercased().contains(lowerQuery) || item.desctiption.lowercased().contains(lowerQuery)
         })
-        refreshRenderItem(notUseParamNotes: false, notes: tmpItems)
+        renderItems = tmpItems.sorted(by: {
+            sortByThis(firstNote: $0, secondNote: $1)
+        })
     }
     
     //remakes the published filter selection list
@@ -224,26 +234,6 @@ class MainViewModel: ObservableObject {
     ///To filter items
     func filterItems() {
         prevFilterSelections = filterSelections
-        var isToday: Bool = false
-        var isCompleted: Bool = false
-        var isIncompleted: Bool = false
-        self.filterSelections.forEach {
-            switch ($0.type){
-            case -1:
-                isIncompleted = true
-                break
-            case 0:
-                isToday = true
-                break
-            case 1:
-                isCompleted = true
-                break
-            default:
-                break
-            }
-        }
-        refreshRenderItem(notUseParamNotes: false, notes: self.items.filter {
-            $0.chooseThis(isToday: isToday, isCompleted: isCompleted, isIncompleted: isIncompleted)
-        })
+        refreshRenderItem()
     }
 }
