@@ -9,6 +9,7 @@ I apply the MVVM Architecture to this project.
 I coded this based on these series:
 * [SwiftUI Todo List (Beginner Level)](https://www.youtube.com/watch?v=wEf1YS4vyW8&list=PLwvDm4VfkdpheGqemblOIA7v3oq0MS30i&index=1).
 * [How to store an Image](https://www.youtube.com/watch?v=y3LofRLPUM8).
+* [How to schedule local Push Notifications in SwiftUI](https://www.youtube.com/watch?v=mG9BVAs8AIo).
 
 ## Main Feature
 * Create note, included image.
