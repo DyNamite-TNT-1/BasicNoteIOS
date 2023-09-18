@@ -11,7 +11,7 @@ import PhotosUI
 struct AddItemView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var mainViewModel: MainViewModel
+    @EnvironmentObject var homeView: HomeViewModel
     @State var titleTxtField: String = ""
     @State var descriptionTxtField: String = ""
     
@@ -75,7 +75,7 @@ struct AddItemView: View {
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            mainViewModel.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData)
+            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData)
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }
@@ -102,12 +102,12 @@ struct AddView_Previews: PreviewProvider {
                 AddItemView()
             }
             .preferredColorScheme(.light)
-            .environmentObject(MainViewModel())
+            .environmentObject(HomeViewModel())
             NavigationView{
                 AddItemView()
             }
             .preferredColorScheme(.dark)
-            .environmentObject(MainViewModel())
+            .environmentObject(HomeViewModel())
         }
     }
 }

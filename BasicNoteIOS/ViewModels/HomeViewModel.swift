@@ -1,5 +1,5 @@
 //
-//  MainViewModel.swift
+//  HomeViewModel.swift
 //  BasicNoteIOS
 //
 //  Created by hanbiro - ANHDUC on 9/6/23.
@@ -17,7 +17,7 @@ import SwiftUI
  
  */
 
-class MainViewModel: ObservableObject {
+class HomeViewModel: ObservableObject {
     /// `[items]` are real items that is saved to and retrieved from local storage(UserDefaults)
     @Published var items: [NoteModel] = [] {
         didSet {//didSet is called whether items is changed

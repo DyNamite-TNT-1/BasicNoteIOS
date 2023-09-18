@@ -12,17 +12,17 @@ struct FilterView: View {
     @Environment(\.dismiss) private var dismiss
     let onDone: () -> Void
     let onDismiss: () -> Void
-    @EnvironmentObject var mainViewModel: MainViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     
     var body: some View {
         VStack {
             FilterBar()
                 .padding(.horizontal)
             List {
-                ForEach(0..<mainViewModel.filterDatas.count, id: \.self) {index in
-                    FilterTag(filterData: mainViewModel.filterDatas[index])
+                ForEach(0..<homeViewModel.filterDatas.count, id: \.self) {index in
+                    FilterTag(filterData: homeViewModel.filterDatas[index])
                         .onTapGesture {
-                            mainViewModel.toggleFilter(at: index)
+                            homeViewModel.toggleFilter(at: index)
                         }
                 }
             }
@@ -51,7 +51,7 @@ struct FilterView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
             FilterView(onDone: {}, onDismiss: {})
-                .environmentObject(MainViewModel())
+                .environmentObject(HomeViewModel())
         }
     }
 }

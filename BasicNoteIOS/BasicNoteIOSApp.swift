@@ -10,15 +10,9 @@ import SwiftUI
 @main
 struct BasicNoteIOSApp: App {
     
-    @StateObject var mainViewModel: MainViewModel = MainViewModel()
-    
     var body: some Scene {
         WindowGroup {
-            NavigationView{
-                MainView()
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .environmentObject(mainViewModel)
+            AppContainer()
         }
     }
 }

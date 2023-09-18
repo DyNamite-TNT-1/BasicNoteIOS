@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FilterBar: View {
     
-    @EnvironmentObject var mainViewModel: MainViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     
     var body: some View {
         HStack {
@@ -17,14 +17,14 @@ struct FilterBar: View {
                 .foregroundColor(.gray)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack{
-                    ForEach(mainViewModel.filterSelections) {item in
+                    ForEach(homeViewModel.filterSelections) {item in
                         FilterTag(filterData: item)
                     }
                 }
             }
             Spacer()
             Button {
-                mainViewModel.clearFilterSelection()
+                homeViewModel.clearFilterSelection()
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundColor(.black.opacity(0.6))
@@ -40,6 +40,6 @@ struct FilterBar: View {
 struct FilterBar_Previews: PreviewProvider {
     static var previews: some View {
         FilterBar()
-        .environmentObject(MainViewModel())
+        .environmentObject(HomeViewModel())
     }
 }
