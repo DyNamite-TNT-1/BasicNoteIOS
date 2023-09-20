@@ -44,7 +44,7 @@ class HomeViewModel: ObservableObject {
     var prevFilterSelections = [FilterModel]()
     
     var sortDatas = [
-//        SortModel(title: "None", type: 0, order: 0),
+        //        SortModel(title: "None", type: 0, order: 0),
         SortModel(title: "Title Asc", type: 1, order: 1),
         SortModel(title: "Title Desc", type: 1, order: -1),
         SortModel(title: "Date Asc", type: 2, order: 1),
@@ -130,8 +130,8 @@ class HomeViewModel: ObservableObject {
         self.renderItems = self.items
     }
     
-    func addItem(title: String, description: String, createDate: Date, image: Data? = nil) {
-        let newItem = NoteModel(title: title, desctiption: description, createDate: createDate, isCompleted: false, image: image)
+    func addItem(title: String, description: String, createDate: Date, image: Data? = nil, isNeedRemind: Bool, targetDateTime: Date) {
+        let newItem = NoteModel(title: title, description: description, createDate: createDate, isCompleted: false, image: image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
         items.append(newItem)
         refreshRenderItem()
     }
@@ -139,9 +139,16 @@ class HomeViewModel: ObservableObject {
     /// To update from completed to incomplete, and vice versa.
     /// - Parameters:
     ///     - item: specific item that will be updated.
-    func updateItem(item: NoteModel) {
+    func toggleItemCompletion(item: NoteModel) {
         if let index = items.firstIndex(where: { $0.id == item.id }) {
             items[index] = item.updateCompletion()
+        }
+        refreshRenderItem()
+    }
+    
+    func updateItem(item: NoteModel, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, targetDateTime: Date) {
+        if let index = items.firstIndex(where: { $0.id == item.id }) {
+            items[index] = item.updateNote(title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
         }
         refreshRenderItem()
     }
@@ -153,7 +160,7 @@ class HomeViewModel: ObservableObject {
         let lowerQuery = query.lowercased()
         // Use [tmpItems] to save the items that contain [query]. After that, refresh [renderItems] by [tmpItems]
         let tmpItems: [NoteModel] = query.isEmpty ? self.items : self.items.filter({ item in
-            item.title.lowercased().contains(lowerQuery) || item.desctiption.lowercased().contains(lowerQuery)
+            item.title.lowercased().contains(lowerQuery) || item.description.lowercased().contains(lowerQuery)
         })
         renderItems = tmpItems.sorted(by: {
             sortByThis(firstNote: $0, secondNote: $1)

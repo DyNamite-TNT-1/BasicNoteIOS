@@ -21,6 +21,9 @@ struct AddItemView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
+    @State var isToggledRemind: Bool = true
+    @State var targetDateTime: Date = Date.now
+    
     var body: some View {
         List {
             Section("Todo title") {
@@ -29,8 +32,16 @@ struct AddItemView: View {
             Section("Todo description") {
                 TextField("Type description here...", text: $descriptionTxtField, axis: .vertical)
             }
+            Section("Reminder") {
+                Toggle("Need remind?", isOn: $isToggledRemind)
+                VStack(alignment: .leading) {
+                    Text("Target Schedule:")
+                        .foregroundColor(.black)
+                    DatePicker("Schedule", selection: $targetDateTime, in: Date.now...)
+                        .labelsHidden()
+                }
+            }
             Section("Image") {
-                
                 if let selectedPhotoData, let uiImage = UIImage(data: selectedPhotoData) {
                     Image(uiImage: uiImage)
                         .resizable()
@@ -40,13 +51,11 @@ struct AddItemView: View {
                             RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .zIndex(-1)
                 }
-                
                 PhotosPicker(selection: $selectedPhoto,
                              matching: .images,
                              photoLibrary: .shared()) {
                     Label("Add Image", systemImage: "photo")
                 }
-                
                 if selectedPhotoData != nil {
                     Button(role: .destructive) {
                         withAnimation{
@@ -65,7 +74,6 @@ struct AddItemView: View {
         .navigationBarItems(trailing:
                                 Button("Save") {saveButtonPressed()})
         .alert(isPresented: $showAlert, content: getAlert)
-        .toolbar {}
         .task(id: selectedPhoto) {
             if let data = try? await selectedPhoto?.loadTransferable(type: Data.self){
                 selectedPhotoData = data
@@ -75,7 +83,7 @@ struct AddItemView: View {
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData)
+            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData, isNeedRemind: isToggledRemind, targetDateTime: targetDateTime)
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }

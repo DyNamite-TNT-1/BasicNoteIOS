@@ -22,8 +22,8 @@ struct NoteItemRowView: View {
                 VStack(alignment: .leading){
                     Text(item.title)
                         .font(.system(size: 18, weight: .semibold))
-                    if !item.desctiption.isEmpty {
-                        Text(item.desctiption)
+                    if !item.description.isEmpty {
+                        Text(item.description)
                             .font(.body)
                     }
                     Text(item.createDate.formatted(date: .abbreviated, time: .shortened))

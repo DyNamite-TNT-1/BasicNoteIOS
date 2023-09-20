@@ -11,26 +11,34 @@ import Foundation
 struct NoteModel: Identifiable, Codable {
     let id: String
     let title: String
-    let desctiption: String
+    let description: String
     let createDate: Date
     let isCompleted: Bool
     let image: Data?
+    let isNeedRemind: Bool
+    let targetDateTime: Date
     
-    init(id: String = UUID().uuidString, title: String, desctiption: String, createDate: Date, isCompleted: Bool, image: Data?) {
+    init(id: String = UUID().uuidString, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, targetDateTime: Date) {
         self.id = id
         self.title = title
-        self.desctiption = desctiption
+        self.description = description
         self.createDate = createDate
         self.isCompleted = isCompleted
         self.image = image
+        self.isNeedRemind = isNeedRemind
+        self.targetDateTime = targetDateTime
     }
     
-    static let exampleUndone = NoteModel(title: "First Note!", desctiption: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil)
+    static let exampleUndone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil, isNeedRemind: true, targetDateTime: Date())
     
-    static let exampleDone = NoteModel(title: "First Note!", desctiption: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: true, image: nil)
+    static let exampleDone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: true, image: nil, isNeedRemind: false, targetDateTime: Date())
     
     func updateCompletion() -> NoteModel {
-        return NoteModel(id: id, title: title, desctiption: desctiption, createDate:  createDate, isCompleted: !isCompleted, image: image)
+        return NoteModel(id: id, title: title, description: description, createDate: createDate, isCompleted: !isCompleted, image: image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
+    }
+    
+    func updateNote(title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, targetDateTime: Date) -> NoteModel {
+        return NoteModel(id: id,  title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
     }
     
     func chooseThis(onlyToday:Bool) -> Bool{

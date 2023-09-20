@@ -27,7 +27,7 @@ struct HomeView: View {
                         } label: {
                             NoteItemRowView(item: item, onToggleDone: {
                                 withAnimation(.linear) {
-                                    homeViewModel.updateItem(item: item)
+                                    homeViewModel.toggleItemCompletion(item: item)
                                 }
                             })
                         }
