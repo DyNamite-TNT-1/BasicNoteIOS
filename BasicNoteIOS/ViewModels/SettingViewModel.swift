@@ -19,20 +19,18 @@ class SettingViewModel: ObservableObject {
     ///-1: denied
     @Published var localNotiStatus: Int = 0 {
         didSet {//didSet is called whether localNotiStatus is changed
-            saveData()
+            UserDefaults.standard.set(localNotiStatus, forKey: localNotiKey)
         }
     }
     
     @Published var toggleNotiStatus: Bool = false {
-        didSet {
-            saveData()
+        didSet {//didSet is called whether toggleNotiStatus is changed
+            UserDefaults.standard.set(toggleNotiStatus, forKey: toggleNotiKey)
         }
     }
     
     let localNotiKey:String = "localNotiKey"
     let toggleNotiKey: String = "toggleNotiKey"
-    
-    var notificationManager = NotificationManager.instance
     
     init(){
         getData()
@@ -43,23 +41,16 @@ class SettingViewModel: ObservableObject {
         toggleNotiStatus = UserDefaults.standard.bool(forKey: toggleNotiKey)
     }
     
-    func saveData() {
-        UserDefaults.standard.set(localNotiStatus, forKey: localNotiKey)
-        UserDefaults.standard.set(toggleNotiStatus, forKey: toggleNotiKey)
-    }
-    
     func onToggle(_ toggle: Bool) {
-//        checkAuthorization()
-        print("1-")
+        checkAuthorization()
         if toggle {
-            print(self.localNotiStatus)
             switch (self.localNotiStatus) {
             case 0:
                 requestAuthorization()
             case 1:
                 scheduleNotification()
             default:
-                requestAuthorization()
+                return
             }
         } else {
             cancelNotification()
@@ -67,21 +58,16 @@ class SettingViewModel: ObservableObject {
     }
     
     func checkAuthorization() {
-        var check: Bool = false
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if (settings.authorizationStatus == .authorized) {
-                print(2)
-                check = true
+                DispatchQueue.main.async {
+                    self.localNotiStatus = 1
+                }
             } else if (settings.authorizationStatus == .denied) {
-                check = false
+                DispatchQueue.main.async {
+                    self.localNotiStatus = -1
+                }
             }
-        }
-        print(check)
-        if (check) {
-            print(3)
-            self.localNotiStatus = 1
-        } else{
-            self.localNotiStatus = -1
         }
     }
     
@@ -92,16 +78,17 @@ class SettingViewModel: ObservableObject {
                 print("Notification Permission is authorized");
             } else if (settings.authorizationStatus == .denied){
                 print("Notification Permission is denied");
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:]) { success in
-                    print("Settings opened: \(success)") // Prints true
-                }
             }
             else {
                 UNUserNotificationCenter.current().requestAuthorization(options: options) { (success, error) in
                     if (success) {
-                        self.localNotiStatus = 1
+                        DispatchQueue.main.async {
+                            self.localNotiStatus = 1
+                        }
                     } else {
-                        self.localNotiStatus = -1
+                        DispatchQueue.main.async {
+                            self.localNotiStatus = -1
+                        }
                     }
                     if let error = error {
                         print("ERROR \(error)")
@@ -114,7 +101,6 @@ class SettingViewModel: ObservableObject {
     }
     
     func scheduleNotification() {
-        print("schedule notification")
         let content = UNMutableNotificationContent()
         content.title = "This is my first notification!"
         content.subtitle = "This was soooo easy!"
@@ -127,8 +113,8 @@ class SettingViewModel: ObservableObject {
         
         //calendar
         var dateComponent = DateComponents()
-        dateComponent.hour = 12
-        dateComponent.minute = 01
+        dateComponent.hour = 9
+        dateComponent.minute = 47
         //                dateComponent.weekday = 2 //Every Monday (1: Sunday)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
         
