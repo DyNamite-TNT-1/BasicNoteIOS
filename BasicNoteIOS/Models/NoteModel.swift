@@ -12,13 +12,13 @@ struct NoteModel: Identifiable, Codable {
     let id: String
     let title: String
     let description: String
-    let createDate: Date
+    let createDate: Date //created or updated date
     let isCompleted: Bool
     let image: Data?
     let isNeedRemind: Bool
-    let targetDateTime: Date
+    let remindDateTime: Date
     
-    init(id: String = UUID().uuidString, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, targetDateTime: Date) {
+    init(id: String = UUID().uuidString, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date) {
         self.id = id
         self.title = title
         self.description = description
@@ -26,19 +26,19 @@ struct NoteModel: Identifiable, Codable {
         self.isCompleted = isCompleted
         self.image = image
         self.isNeedRemind = isNeedRemind
-        self.targetDateTime = targetDateTime
+        self.remindDateTime = remindDateTime
     }
     
-    static let exampleUndone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil, isNeedRemind: true, targetDateTime: Date())
+    static let exampleUndone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil, isNeedRemind: true, remindDateTime: Date())
     
-    static let exampleDone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: true, image: nil, isNeedRemind: false, targetDateTime: Date())
+    static let exampleDone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: true, image: nil, isNeedRemind: false, remindDateTime: Date())
     
     func updateCompletion() -> NoteModel {
-        return NoteModel(id: id, title: title, description: description, createDate: createDate, isCompleted: !isCompleted, image: image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
+        return NoteModel(id: id, title: title, description: description, createDate: createDate, isCompleted: !isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
     }
     
-    func updateNote(title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, targetDateTime: Date) -> NoteModel {
-        return NoteModel(id: id,  title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
+    func updateNote(title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date) -> NoteModel {
+        return NoteModel(id: id,  title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
     }
     
     func chooseThis(onlyToday:Bool) -> Bool{

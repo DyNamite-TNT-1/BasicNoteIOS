@@ -13,12 +13,12 @@ struct NoteDetailView: View {
     let mainColor = Color("MainColor")
     
     @EnvironmentObject var homeViewModel: HomeViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var isImageViewerPresented = false
-    @State private var isEditMode = false
-    @State private var isShowSelectTargetDate = true
     
     @State private var alertTitle: String = ""
     @State private var showAlert: Bool = false
+    @State private var showConfirmDialog: Bool = false
     
     @State private var titleTxtField: String = ""
     @State private var descriptionTxtField: String = ""
@@ -26,7 +26,11 @@ struct NoteDetailView: View {
     @State private var isDone: Bool = false
     @State private var isNeedRemind: Bool = false
     
-    @State private var targetDateTime: Date = Date.now
+    @State private var isToggledRemindDate = true
+    @State private var isShowedRemindDate = true
+    @State private var isToggledRemindTime = true
+    @State private var isShowedRemindTime = true
+    @State private var remindDateTime: Date = Date.now
     
     init(item: NoteModel) {
         self.item = item
@@ -34,7 +38,31 @@ struct NoteDetailView: View {
         self._descriptionTxtField = State(initialValue: item.description)
         self._isDone = State(initialValue: item.isCompleted)
         self._isNeedRemind = State(initialValue: item.isNeedRemind)
-        self._targetDateTime = State(initialValue: item.targetDateTime)
+        self._remindDateTime = State(initialValue: item.remindDateTime)
+    }
+    
+    var btnBack : some View {
+        Button(action: {
+            if (checkAlreadyEdited()) {
+                showConfirmDialog.toggle()
+            } else {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }) {
+            Text("Cancel")
+        }
+    }
+    
+    func checkAlreadyEdited() -> Bool {
+        if (item.title != titleTxtField ||
+            item.description != descriptionTxtField ||
+            item.isCompleted != isDone ||
+            item.isNeedRemind != isNeedRemind ||
+            item.remindDateTime != remindDateTime) {
+            return true
+        } else {
+            return false
+        }
     }
     
     var body: some View {
@@ -54,9 +82,7 @@ struct NoteDetailView: View {
                         .background(isDone ? .green : .red)
                         .cornerRadius(10)
                         .onTapGesture {
-                            if (isEditMode) {
-                                isDone.toggle()
-                            }
+                            isDone.toggle()
                         }
                         .animation(Animation.default.speed(1), value: isDone)
                 }
@@ -70,75 +96,94 @@ struct NoteDetailView: View {
                         .background(isNeedRemind ? .blue : .gray)
                         .cornerRadius(10)
                         .onTapGesture {
-                            if (isEditMode) {
-                                isNeedRemind.toggle()
-                            }
+                            isNeedRemind.toggle()
                         }
                         .animation(Animation.default.speed(1), value: isNeedRemind)
                 }
             }
-            HStack{
-                Text("Updated Date:")
-                    .font(.system(size: 14))
-                Spacer()
-                Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
-            }
-            .padding(.horizontal)
-            
-            ZStack {
-                DatePicker("Pick Date:", selection: $targetDateTime, in: Date.now...)
-                    .padding(isEditMode ? 8 : 0)
-                    .overlay(
-                        isEditMode ?  RoundedRectangle(cornerRadius: 10)
-                            .stroke(.blue, lineWidth: 2) : nil
-                    )
-                    .padding(.horizontal,isEditMode ? 16 : 0)
-                    .opacity(isEditMode ? 100 : 0)
-                if (!isEditMode) {
-                    HStack{
-                        Text("Target Date:")
-                            .font(.system(size: 14))
-                        Spacer()
-                            Text(targetDateTime.formatted(date: .abbreviated, time: .shortened))
-                      
-                            
-                        
-    //                    if (isEditMode) {
-    //                        Button {
-    //                            withAnimation{
-    //                                isShowSelectTargetDate.toggle()
-    //                            }
-    //                        } label: {
-    //                            Image(systemName: "chevron.right")
-    //                                .rotationEffect(Angle(degrees: isShowSelectTargetDate ? 90 : 0))
-    //                        }
-    //                        .animation(Animation.default.speed(1), value: isShowSelectTargetDate)
-    //                    }
-                     
-    //                    .padding(8)
-    //                    .overlay(
-    //                        RoundedRectangle(cornerRadius: 10)
-    //                            .stroke(.blue, lineWidth: 2)
-    //                    )
-    //                    .padding(.horizontal)
-                    }
-                    .padding(.horizontal)
-    //                if (isShowSelectTargetDate && isEditMode) {
-    //                    DatePicker("Select Date:", selection: $targetDateTime, in: Date.now...)
-    //                    .labelsHidden()
-    //                    .padding(8)
-    //                    .overlay(
-    //                        RoundedRectangle(cornerRadius: 10)
-    //                            .stroke(.blue, lineWidth: 2)
-    //                    )
-    //                    .padding(.horizontal)
-    //                }
+            Section {
+                HStack{
+                    Text("Updated:")
+                    Spacer()
+                    Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
                 }
-               
+                //Target Date
+                Button {
+                    if (isToggledRemindDate) {
+                        withAnimation {
+                            isShowedRemindDate.toggle()
+                        }
+                    }
+                } label: {
+                    Toggle(isOn: $isToggledRemindDate) {
+                        HStack{
+                            Image(systemName: "calendar")
+                                .resizable()
+                                .frame(width: 18.0, height: 18.0)
+                                .foregroundColor(Color.white)
+                                .padding(6)
+                                .background(Color.red)
+                                .cornerRadius(8)
+                            VStack(alignment: .leading) {
+                                Text("Target Date")
+                                    .foregroundColor(.black)
+                                if (isToggledRemindDate) {
+                                    Text(remindDateTime, style: .date)
+                                        .font(.footnote)
+                                }
+                            }
+                        }
+                    }
+                    .onChange(of: isToggledRemindDate) { value in
+                        withAnimation {
+                            isShowedRemindDate = value
+                        }
+                    }
+                }
+                if (isShowedRemindDate) {
+                    DatePicker("Pick Date:",selection: $remindDateTime, displayedComponents: .date)
+                        .labelsHidden()
+                        .datePickerStyle(.graphical)
+                }
+                //Target Time
+                Button {
+                    if (isToggledRemindTime) {
+                        withAnimation {
+                            isShowedRemindTime.toggle()
+                        }
+                    }
+                } label: {
+                    Toggle(isOn: $isToggledRemindTime) {
+                        HStack{
+                            Image(systemName: "clock.fill")
+                                .resizable()
+                                .frame(width: 18.0, height: 18.0)
+                                .foregroundColor(Color.white)
+                                .padding(6)
+                                .background(Color.accentColor)
+                                .cornerRadius(8)
+                            VStack(alignment: .leading) {
+                                Text("Target Time")
+                                    .foregroundColor(.black)
+                                if (isToggledRemindTime) {
+                                    Text(remindDateTime, style: .time)
+                                        .font(.footnote)
+                                }
+                            }
+                        }
+                    }
+                    .onChange(of: isToggledRemindTime) { value in
+                        withAnimation {
+                            isShowedRemindTime = value
+                        }
+                    }
+                }
+                if (isShowedRemindTime) {
+                    DatePicker("Pick Time:",selection: $remindDateTime, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .datePickerStyle(WheelDatePickerStyle())
+                }
             }
-            .transition(.move(edge: .bottom))
-            
-            
             
             if let selectedPhotoData = item.image, let uiImage = UIImage(data: selectedPhotoData) {
                 Image(uiImage: uiImage)
@@ -168,20 +213,27 @@ struct NoteDetailView: View {
                             }
                     }
             }
-            Spacer()
         }
         .navigationTitle("View Detail")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: Button(action: {
-//            if (isEditMode) {
-//                homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: item.image, isNeedRemind: isNeedRemind, targetDateTime: targetDateTime)
-//            }
-            isEditMode.toggle()
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: btnBack, trailing: Button(action: {
+            homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: item.image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+            self.presentationMode.wrappedValue.dismiss()
         }, label: {
-            Text(isEditMode ? "Done" : "Edit")
+            Text("Save")
                 .foregroundColor(.accentColor)
         }))
         .alert(isPresented: $showAlert, content: getAlert)
+        .confirmationDialog("Cancel Confirmation", isPresented: $showConfirmDialog) {
+            Button(role: .destructive) {
+                self.presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text("Cancel changes")
+            }
+        } message: {
+            Text("You cannot undo this action")
+          }
     }
     
     func textIsAppropriate() -> Bool {

@@ -22,7 +22,7 @@ struct AddItemView: View {
     @State var selectedPhotoData: Data?
     
     @State var isToggledRemind: Bool = true
-    @State var targetDateTime: Date = Date.now
+    @State var remindDateTime: Date = Date.now
     
     var body: some View {
         List {
@@ -35,9 +35,9 @@ struct AddItemView: View {
             Section("Reminder") {
                 Toggle("Need remind?", isOn: $isToggledRemind)
                 VStack(alignment: .leading) {
-                    Text("Target Schedule:")
+                    Text("Remind Schedule:")
                         .foregroundColor(.black)
-                    DatePicker("Schedule", selection: $targetDateTime, in: Date.now...)
+                    DatePicker("Schedule", selection: $remindDateTime, in: Date.now...)
                         .labelsHidden()
                 }
             }
@@ -83,7 +83,7 @@ struct AddItemView: View {
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData, isNeedRemind: isToggledRemind, targetDateTime: targetDateTime)
+            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData, isNeedRemind: isToggledRemind, remindDateTime: remindDateTime)
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }
