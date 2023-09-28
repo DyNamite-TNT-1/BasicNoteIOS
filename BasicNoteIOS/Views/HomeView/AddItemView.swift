@@ -54,7 +54,7 @@ struct AddItemView: View {
                 PhotosPicker(selection: $selectedPhoto,
                              matching: .images,
                              photoLibrary: .shared()) {
-                    Label("Add Image", systemImage: "photo")
+                    Label(selectedPhotoData != nil ? "Change Image" : "Add Image", systemImage: "photo")
                 }
                 if selectedPhotoData != nil {
                     Button(role: .destructive) {

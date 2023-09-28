@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 import SwiftUIImageViewer
 
 struct NoteDetailView: View {
@@ -26,11 +27,12 @@ struct NoteDetailView: View {
     @State private var isDone: Bool = false
     @State private var isNeedRemind: Bool = false
     
-    @State private var isToggledRemindDate = true
-    @State private var isShowedRemindDate = true
-    @State private var isToggledRemindTime = true
-    @State private var isShowedRemindTime = true
+    @State private var isShowedRemindDate = false
+    @State private var isShowedRemindTime = false
     @State private var remindDateTime: Date = Date.now
+    
+    @State var selectedPhoto: PhotosPickerItem?
+    @State var selectedPhotoData: Data?
     
     init(item: NoteModel) {
         self.item = item
@@ -38,7 +40,10 @@ struct NoteDetailView: View {
         self._descriptionTxtField = State(initialValue: item.description)
         self._isDone = State(initialValue: item.isCompleted)
         self._isNeedRemind = State(initialValue: item.isNeedRemind)
+        self._isShowedRemindDate = State(initialValue: false)
+        self._isShowedRemindTime = State(initialValue: false)
         self._remindDateTime = State(initialValue: item.remindDateTime)
+        self._selectedPhotoData = State(initialValue: item.image)
     }
     
     var btnBack : some View {
@@ -58,7 +63,8 @@ struct NoteDetailView: View {
             item.description != descriptionTxtField ||
             item.isCompleted != isDone ||
             item.isNeedRemind != isNeedRemind ||
-            item.remindDateTime != remindDateTime) {
+            item.remindDateTime != remindDateTime ||
+            item.image != selectedPhotoData) {
             return true
         } else {
             return false
@@ -71,7 +77,7 @@ struct NoteDetailView: View {
                 TextField("Title", text: $titleTxtField, axis: .vertical)
                 TextField("Description", text: $descriptionTxtField, axis: .vertical)
             }
-            Section("Status"){
+            Section{
                 HStack{
                     Text("Completed")
                     Spacer()
@@ -82,10 +88,18 @@ struct NoteDetailView: View {
                         .background(isDone ? .green : .red)
                         .cornerRadius(10)
                         .onTapGesture {
-                            isDone.toggle()
+                            withAnimation {
+                                isDone.toggle()
+                            }
                         }
-                        .animation(Animation.default.speed(1), value: isDone)
                 }
+                HStack{
+                    Text("Updated:")
+                    Spacer()
+                    Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
+                }
+            }
+            Section("Remind Schedule") {
                 HStack{
                     Text("Remind")
                     Spacer()
@@ -96,88 +110,68 @@ struct NoteDetailView: View {
                         .background(isNeedRemind ? .blue : .gray)
                         .cornerRadius(10)
                         .onTapGesture {
-                            isNeedRemind.toggle()
+                            withAnimation{
+                                isNeedRemind.toggle()
+                                isShowedRemindTime = false
+                                isShowedRemindDate = false
+                            }
                         }
-                        .animation(Animation.default.speed(1), value: isNeedRemind)
                 }
-            }
-            Section {
-                HStack{
-                    Text("Updated:")
-                    Spacer()
-                    Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
-                }
-                //Target Date
+                //Remind Date
                 Button {
-                    if (isToggledRemindDate) {
-                        withAnimation {
-                            isShowedRemindDate.toggle()
-                        }
+                    withAnimation {
+                        isShowedRemindDate.toggle()
                     }
                 } label: {
-                    Toggle(isOn: $isToggledRemindDate) {
-                        HStack{
-                            Image(systemName: "calendar")
-                                .resizable()
-                                .frame(width: 18.0, height: 18.0)
-                                .foregroundColor(Color.white)
-                                .padding(6)
-                                .background(Color.red)
-                                .cornerRadius(8)
-                            VStack(alignment: .leading) {
-                                Text("Target Date")
-                                    .foregroundColor(.black)
-                                if (isToggledRemindDate) {
-                                    Text(remindDateTime, style: .date)
-                                        .font(.footnote)
-                                }
+                    HStack{
+                        Image(systemName: "calendar")
+                            .resizable()
+                            .frame(width: 18.0, height: 18.0)
+                            .foregroundColor(Color.white)
+                            .padding(6)
+                            .background(isNeedRemind ? Color.red : Color.gray)
+                            .cornerRadius(8)
+                        VStack(alignment: .leading) {
+                            Text("Target Date")
+                                .foregroundColor(.black)
+                            if (isNeedRemind) {
+                                Text(remindDateTime, style: .date)
+                                    .font(.footnote)
                             }
                         }
                     }
-                    .onChange(of: isToggledRemindDate) { value in
-                        withAnimation {
-                            isShowedRemindDate = value
-                        }
-                    }
                 }
+                .disabled(!isNeedRemind)
                 if (isShowedRemindDate) {
                     DatePicker("Pick Date:",selection: $remindDateTime, displayedComponents: .date)
                         .labelsHidden()
                         .datePickerStyle(.graphical)
                 }
-                //Target Time
+                //Remind Time
                 Button {
-                    if (isToggledRemindTime) {
-                        withAnimation {
-                            isShowedRemindTime.toggle()
-                        }
+                    withAnimation {
+                        isShowedRemindTime.toggle()
                     }
                 } label: {
-                    Toggle(isOn: $isToggledRemindTime) {
-                        HStack{
-                            Image(systemName: "clock.fill")
-                                .resizable()
-                                .frame(width: 18.0, height: 18.0)
-                                .foregroundColor(Color.white)
-                                .padding(6)
-                                .background(Color.accentColor)
-                                .cornerRadius(8)
-                            VStack(alignment: .leading) {
-                                Text("Target Time")
-                                    .foregroundColor(.black)
-                                if (isToggledRemindTime) {
-                                    Text(remindDateTime, style: .time)
-                                        .font(.footnote)
-                                }
+                    HStack{
+                        Image(systemName: "clock.fill")
+                            .resizable()
+                            .frame(width: 18.0, height: 18.0)
+                            .foregroundColor(Color.white)
+                            .padding(6)
+                            .background(isNeedRemind ? Color.accentColor : Color.gray)
+                            .cornerRadius(8)
+                        VStack(alignment: .leading) {
+                            Text("Target Time")
+                                .foregroundColor(.black)
+                            if (isNeedRemind) {
+                                Text(remindDateTime, style: .time)
+                                    .font(.footnote)
                             }
                         }
                     }
-                    .onChange(of: isToggledRemindTime) { value in
-                        withAnimation {
-                            isShowedRemindTime = value
-                        }
-                    }
                 }
+                .disabled(!isNeedRemind)
                 if (isShowedRemindTime) {
                     DatePicker("Pick Time:",selection: $remindDateTime, displayedComponents: .hourAndMinute)
                         .labelsHidden()
@@ -185,40 +179,58 @@ struct NoteDetailView: View {
                 }
             }
             
-            if let selectedPhotoData = item.image, let uiImage = UIImage(data: selectedPhotoData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxHeight: 200)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    .zIndex(-1)
-                    .padding()
-                    .onTapGesture {
-                        isImageViewerPresented = true
-                    }
-                    .fullScreenCover(isPresented: $isImageViewerPresented) {
-                        SwiftUIImageViewer(image: Image(uiImage: uiImage))
-                            .overlay(alignment: .topTrailing) {
-                                Button{
-                                    isImageViewerPresented = false
-                                } label: {
-                                    Image(systemName: "xmark")
-                                        .font(.headline)
+            Section("Image") {
+                if let selectedPhotoData = self.selectedPhotoData, let uiImage = UIImage(data: selectedPhotoData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxHeight: 200)
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .zIndex(-1)
+                        .padding()
+                        .onTapGesture {
+                            isImageViewerPresented = true
+                        }
+                        .fullScreenCover(isPresented: $isImageViewerPresented) {
+                            SwiftUIImageViewer(image: Image(uiImage: uiImage))
+                                .overlay(alignment: .topTrailing) {
+                                    Button{
+                                        isImageViewerPresented = false
+                                    } label: {
+                                        Image(systemName: "xmark")
+                                            .font(.headline)
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .clipShape(Circle())
+                                    .tint(.purple)
+                                    .padding()
                                 }
-                                .buttonStyle(.bordered)
-                                .clipShape(Circle())
-                                .tint(.purple)
-                                .padding()
-                            }
+                        }
+                }
+                PhotosPicker(selection: $selectedPhoto,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    Label(selectedPhotoData != nil ? "Change Image" : "Add Image", systemImage: "photo")
+                }
+                if selectedPhotoData != nil {
+                    Button(role: .destructive) {
+                        withAnimation{
+                            selectedPhoto = nil
+                            selectedPhotoData = nil
+                        }
+                    } label: {
+                        Label("Remove Image", systemImage: "xmark")
+                            .foregroundStyle(.red)
                     }
+                }
             }
         }
         .navigationTitle("View Detail")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: btnBack, trailing: Button(action: {
-            homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: item.image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+            homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: selectedPhotoData, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
             self.presentationMode.wrappedValue.dismiss()
         }, label: {
             Text("Save")
@@ -233,7 +245,12 @@ struct NoteDetailView: View {
             }
         } message: {
             Text("You cannot undo this action")
-          }
+        }
+        .task(id: selectedPhoto) {
+            if let data = try? await selectedPhoto?.loadTransferable(type: Data.self){
+                selectedPhotoData = data
+            }
+        }
     }
     
     func textIsAppropriate() -> Bool {
