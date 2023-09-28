@@ -10,7 +10,6 @@ import SwiftUI
 struct AppContainer: View {
     
     @StateObject var homeViewModel: HomeViewModel = HomeViewModel()
-    @StateObject var settingViewModel: SettingViewModel = SettingViewModel()
     @State var selectedTab: Int = 0
     
     var body: some View {
@@ -26,10 +25,10 @@ struct AppContainer: View {
             }
             .tag(0)
             NavigationView {
-                SettingView()
+                SettingView(isToggled: homeViewModel.toggleNotiStatus)
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .environmentObject(settingViewModel)
+            .environmentObject(homeViewModel)
             .tabItem{
                 Image(systemName: "gearshape.fill")
                 Text("Setting")

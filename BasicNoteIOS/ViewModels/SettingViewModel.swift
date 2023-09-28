@@ -42,8 +42,9 @@ class SettingViewModel: ObservableObject {
     }
     
     func onToggle(_ toggle: Bool) {
+        self.toggleNotiStatus = toggle
         checkAuthorization()
-        if toggle {
+        if self.toggleNotiStatus {
             switch (self.localNotiStatus) {
             case 0:
                 requestAuthorization()

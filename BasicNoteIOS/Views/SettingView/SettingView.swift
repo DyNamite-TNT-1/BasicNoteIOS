@@ -10,20 +10,25 @@ import UserNotifications
 
 struct SettingView: View {
     
-    @EnvironmentObject var settingViewModel: SettingViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @State private var isToggled: Bool = false
+    
+    init(isToggled: Bool) {
+        self._isToggled = State(initialValue: isToggled)
+    }
     
     var body: some View {
         let bindingShowAlert = Binding<Bool> {
-            return self.isToggled && self.settingViewModel.localNotiStatus == -1
+            return homeViewModel.toggleNotiStatus && self.homeViewModel.localNotiStatus == -1
         } set: {
             _ in
+            //nothing to do
         }
         List {
             Section() {
                 Toggle("Notifications", isOn: $isToggled)
                     .onChange(of: isToggled, perform: {
-                        settingViewModel.onToggle($0)
+                        homeViewModel.onToggle($0)
                     })
                     .alert("You didn't allow notifications. Go to Settings to allow it.", isPresented: bindingShowAlert) {
                         Button("Cancel") {
@@ -31,14 +36,14 @@ struct SettingView: View {
                         }
                         Button("Go to Settings") {
                             isToggled = false
-                            settingViewModel.goToSetting()
+                            homeViewModel.goToSetting()
                         }
                     }
             }
         }
         .onAppear{
             UIApplication.shared.applicationIconBadgeNumber = 0
-            settingViewModel.checkAuthorization()
+            homeViewModel.checkAuthorization()
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
@@ -48,7 +53,7 @@ struct SettingView: View {
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SettingView()
+            SettingView(isToggled: true)
         }
     }
 }
