@@ -362,16 +362,14 @@ class HomeViewModel: ObservableObject {
 //        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
 //        UNUserNotificationCenter.current().add(request)
         //
-        var count: Int = 0
         for index in 0..<self.items.count {
             if (self.items[index].isNeedRemind) {
-                count += 1
                 let item = self.items[index]
                 let content = UNMutableNotificationContent()
                 content.title = item.title
                 content.body = item.description
                 content.sound = .default
-                content.badge = count as NSNumber
+                content.badge = content.badge ?? 0 + 1 as NSNumber
                 
                 let dateComponent = Calendar.current.dateComponents([.day, .month, .hour, .minute], from: item.remindDateTime)
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
