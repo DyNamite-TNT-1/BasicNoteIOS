@@ -50,8 +50,10 @@ class HomeViewModel: ObservableObject {
         //        SortModel(title: "None", type: 0, order: 0),
         SortModel(title: "Title Asc", type: 1, order: 1),
         SortModel(title: "Title Desc", type: 1, order: -1),
-        SortModel(title: "Date Asc", type: 2, order: 1),
-        SortModel(title: "Date Desc", type: 2, order: -1, isSelected:  true),
+        SortModel(title: "Updated Asc", type: 2, order: 1),
+        SortModel(title: "Updated Desc", type: 2, order: -1, isSelected:  true),
+        SortModel(title: "Remind Asc", type: 3, order: 1),
+        SortModel(title: "Remind Desc", type: 3, order: -1)
     ]
     
     ///`[sortSelection]` is one sort item that is selected by user
@@ -150,11 +152,11 @@ class HomeViewModel: ObservableObject {
     }
     
     /*
-     This func not correct, since the sorting feature was added. Don't use it.
+     Func "moveItem" not correct, since the sorting feature was added. Don't use it.
      Previously, this feature was made to learn swiftui. So, this no need in business.
      Solutions:
      + Remove this forever.
-     + Add a new sorter called "None". If move item, apply this sorter.
+     + Add a new sorter called "By hand". If move item, apply this sorter.
      Last updated: temporarily, disable this to update later.
      */
     func moveItem(from: IndexSet, to: Int) {
@@ -269,6 +271,10 @@ class HomeViewModel: ObservableObject {
             return firstNote.createDate < secondNote.createDate
         case (2, -1):
             return firstNote.createDate > secondNote.createDate
+        case (3, 1):
+            return firstNote.remindDateTime < secondNote.remindDateTime
+        case (3, -1):
+            return firstNote.remindDateTime > secondNote.remindDateTime
         default:
             return firstNote.createDate > secondNote.createDate
         }

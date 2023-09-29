@@ -10,7 +10,7 @@ struct SortModel {
     var id = UUID()
 //    var imageName: String
     var title: String
-    var type: Int // 1: title, 2: date
+    var type: Int // 1: title, 2: date, 3: remind
     var order: Int // -1: desc, 1: asc
     var isSelected: Bool = false
     

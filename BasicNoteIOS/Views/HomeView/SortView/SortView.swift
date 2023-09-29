@@ -22,7 +22,6 @@ struct SortView: View {
                     } else {
                         Text(homeViewModel.sortDatas[index].title)
                     }
-                    
                 }
             }
         } label: {

@@ -26,8 +26,9 @@ struct NoteItemRowView: View {
                         Text(item.description)
                             .font(.body)
                     }
-                    Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
+                    Text(item.remindDateTime.formatted(date: .abbreviated, time: .shortened))
                         .font(.footnote)
+                        .foregroundColor(item.isNeedRemind ? .accentColor : .gray)
                 }
             }
             
