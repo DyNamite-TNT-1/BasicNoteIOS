@@ -11,6 +11,8 @@ I coded this based on these series:
 * [How to store an Image](https://www.youtube.com/watch?v=y3LofRLPUM8).
 * [How to schedule local Push Notifications in SwiftUI](https://www.youtube.com/watch?v=mG9BVAs8AIo).
 
+Note: I have updated this code so the UI is changed little bit. 
+
 ## Main Feature
 * Create note, included image.
 * Display notes.
@@ -20,6 +22,7 @@ I coded this based on these series:
 * Sort notes.
 * Filter notes.
 * Search notes by query.
+* Local Notification.
 
 ## Document
 Another documents(For Vietnamese):
