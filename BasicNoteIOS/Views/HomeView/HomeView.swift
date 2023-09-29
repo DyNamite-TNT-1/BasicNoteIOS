@@ -43,6 +43,10 @@ struct HomeView: View {
                 .animation(.default, value: query)
             }
         }
+        .onAppear{
+            UIApplication.shared.applicationIconBadgeNumber = 0
+            homeViewModel.doNotification()
+        }
         .navigationTitle("Todo List 📝")
         .navigationBarItems(leading: EditButton(),
                             trailing:

@@ -35,6 +35,10 @@ struct AppContainer: View {
             }
             .tag(1)
         }
+        .onAppear{
+            UIApplication.shared.applicationIconBadgeNumber = 0
+            homeViewModel.doNotification()
+        }
     }
 }
 

@@ -24,6 +24,7 @@ class HomeViewModel: ObservableObject {
     @Published var items: [NoteModel] = [] {
         didSet {//didSet is called whether items is changed
             saveItem()
+            doNotification()
         }
     }
     /**
@@ -281,11 +282,15 @@ class HomeViewModel: ObservableObject {
     
     func onToggle(_ toggle: Bool) {
         self.toggleNotiStatus = toggle
-        checkAuthorization()
+        doNotification()
+    }
+    
+    func doNotification() {
+        checkPermission()
         if self.toggleNotiStatus {
             switch (self.localNotiStatus) {
             case 0:
-                requestAuthorization()
+                requestPermission()
             case 1:
                 scheduleNotification()
             default:
@@ -296,7 +301,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func checkAuthorization() {
+    func checkPermission() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if (settings.authorizationStatus == .authorized) {
                 DispatchQueue.main.async {
@@ -310,7 +315,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func requestAuthorization() {
+    func requestPermission() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if (settings.authorizationStatus == .authorized) {
@@ -340,25 +345,40 @@ class HomeViewModel: ObservableObject {
     }
     
     func scheduleNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "This is my first notification!"
-        content.subtitle = "This was soooo easy!"
-        content.body = "This is body of notification."
-        content.sound = .default
-        content.badge = 1
-        
-        //time-interval
-        //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        
-        //calendar
-        var dateComponent = DateComponents()
-        dateComponent.hour = 9
-        dateComponent.minute = 47
-        //                dateComponent.weekday = 2 //Every Monday (1: Sunday)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
-        
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request)
+        //test notification
+//        let content = UNMutableNotificationContent()
+//        content.title = "This is my first notification!"
+//        content.subtitle = "This was soooo easy!"
+//        content.body = "This is body of notification."
+//        content.sound = .default
+//        content.badge = 1
+//
+//        var dateComponent = DateComponents()
+//        dateComponent.hour = 9
+//        dateComponent.minute = 47
+//
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+//
+//        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+//        UNUserNotificationCenter.current().add(request)
+        //
+        var count: Int = 0
+        for index in 0..<self.items.count {
+            if (self.items[index].isNeedRemind) {
+                count += 1
+                let item = self.items[index]
+                let content = UNMutableNotificationContent()
+                content.title = item.title
+                content.body = item.description
+                content.sound = .default
+                content.badge = count as NSNumber
+                
+                let dateComponent = Calendar.current.dateComponents([.day, .month, .hour, .minute], from: item.remindDateTime)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request)
+            }
+        }
     }
     
     func cancelNotification() {

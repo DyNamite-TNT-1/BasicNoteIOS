@@ -26,6 +26,7 @@ struct SettingView: View {
         }
         List {
             Section() {
+                Text("This will enable push notifications that items need reminding.")
                 Toggle("Notifications", isOn: $isToggled)
                     .onChange(of: isToggled, perform: {
                         homeViewModel.onToggle($0)
@@ -43,7 +44,7 @@ struct SettingView: View {
         }
         .onAppear{
             UIApplication.shared.applicationIconBadgeNumber = 0
-            homeViewModel.checkAuthorization()
+            homeViewModel.checkPermission()
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
