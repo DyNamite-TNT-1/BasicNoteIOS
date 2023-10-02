@@ -40,9 +40,9 @@ class HomeViewModel: ObservableObject {
     let selectedFiltersKey: String = "selectedFiltersKey"
     
     var filterDatas = [
-        FilterModel(imageName: "bookmark.circle", title: "Only Today", type: 0),
-        FilterModel(imageName: "checkmark.circle", title: "Done Note", type: 1),
-        FilterModel(imageName: "circle", title: "Undone Note", type: -1),
+        FilterModel(imageName: "bookmark.circle", title: "Today", description: "Reminders's notes are today", type: 0),
+        FilterModel(imageName: "checkmark.circle", title: "Done", description: "Notes're completed", type: 1),
+        FilterModel(imageName: "circle", title: "Undone", description: "Notes're incompleted",type: -1),
     ]
     
     ///`[filterSelections]` is the list of filter items that are selected by user
@@ -107,13 +107,13 @@ class HomeViewModel: ObservableObject {
     }
     
     /// To save Data that need Encode, like: object, list objects to local storage
-    func saveNeedEncodedData<T : Encodable>(key: String, value: T) {
+    private func saveNeedEncodedData<T : Encodable>(key: String, value: T) {
         if let encodedData = try? JSONEncoder().encode(value) {
             UserDefaults.standard.set(encodedData, forKey: key)
         }
     }
     
-    func getSavedSettings() {
+    private func getSavedSettings() {
         localNotiStatus = UserDefaults.standard.integer(forKey: self.localNotiKey)
         toggleNotiStatus = UserDefaults.standard.bool(forKey: self.toggleNotiKey)
         guard
@@ -130,11 +130,19 @@ class HomeViewModel: ObservableObject {
             let data = UserDefaults.standard.data(forKey: self.selectedFiltersKey),
             let savedSelectedFilters = try? JSONDecoder().decode([FilterModel].self, from: data)
         else { return }
-        self.filterSelections = savedSelectedFilters
+        savedSelectedFilters.forEach{ savedItem in
+            let index = filterDatas.firstIndex {
+                $0.type == savedItem.type
+            }
+            if (index != nil) {
+                filterDatas[index!].isSelected.toggle()
+            }
+        }
+        refreshFilterSelection(needUpdatePrevSelection: true)
     }
     
     /// To refresh `renderItems` by sort selection and filter selections
-    func refreshRenderItem() {
+    private func refreshRenderItem() {
         var onlyToday: Bool = false
         var isCompleted: Bool = false
         var isIncompleted: Bool = false
@@ -225,12 +233,15 @@ class HomeViewModel: ObservableObject {
     }
     
     //remakes the published filter selection list
-    private func refreshFilterSelection() {
+    private func refreshFilterSelection(needUpdatePrevSelection: Bool = false) {
         let result = filterDatas.filter { filter in
             filter.isSelected
         }
         withAnimation {
             filterSelections = result
+        }
+        if (needUpdatePrevSelection) {
+            prevFilterSelections = filterSelections
         }
     }
     
@@ -344,7 +355,7 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func requestPermission() {
+    private func requestPermission() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if (settings.authorizationStatus == .authorized) {

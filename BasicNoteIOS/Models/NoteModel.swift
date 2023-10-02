@@ -51,7 +51,7 @@ struct NoteModel: Identifiable, Codable {
         relativeDateFormatter.dateStyle = .medium
         relativeDateFormatter.locale = Locale(identifier: "en_GB")
         relativeDateFormatter.doesRelativeDateFormatting = true
-        if (onlyToday && relativeDateFormatter.string(from: self.createDate) == "Today"){
+        if (onlyToday && relativeDateFormatter.string(from: self.remindDateTime) == "Today"){
             return true
         }
         return false

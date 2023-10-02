@@ -20,10 +20,15 @@ struct FilterView: View {
                 .padding(.horizontal)
             List {
                 ForEach(0..<homeViewModel.filterDatas.count, id: \.self) {index in
-                    FilterTag(filterData: homeViewModel.filterDatas[index])
-                        .onTapGesture {
-                            homeViewModel.toggleFilter(at: index)
-                        }
+                    HStack{
+                        FilterTag(filterData: homeViewModel.filterDatas[index])
+                        Spacer()
+                        Text(homeViewModel.filterDatas[index].description)
+                            .font(.system(size: 14))
+                    }
+                    .onTapGesture {
+                        homeViewModel.toggleFilter(at: index)
+                    }
                 }
             }
             .listStyle(.plain)
