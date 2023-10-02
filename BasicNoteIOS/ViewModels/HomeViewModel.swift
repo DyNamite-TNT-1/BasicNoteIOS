@@ -23,7 +23,7 @@ class HomeViewModel: ObservableObject {
     /// `[items]` are real items that is saved to and retrieved from local storage(UserDefaults)
     @Published var items: [NoteModel] = [] {
         didSet {//didSet is called whether items is changed
-            saveItem()
+            saveNeedEncodedData(key: self.itemsKey, value: self.items)
             doNotification()
         }
     }
@@ -34,6 +34,10 @@ class HomeViewModel: ObservableObject {
     @Published var renderItems: [NoteModel] = []
     
     let itemsKey: String = "items_list"
+    let localNotiKey:String = "localNotiKey"
+    let toggleNotiKey: String = "toggleNotiKey"
+    let selectedSortKey: String = "selectedSortKey"
+    let selectedFiltersKey: String = "selectedFiltersKey"
     
     var filterDatas = [
         FilterModel(imageName: "bookmark.circle", title: "Only Today", type: 0),
@@ -42,22 +46,30 @@ class HomeViewModel: ObservableObject {
     ]
     
     ///`[filterSelections]` is the list of filter items that are selected by user
-    @Published var filterSelections = [FilterModel]()
+    @Published var filterSelections = [FilterModel]() {
+        didSet{
+            saveNeedEncodedData(key: selectedFiltersKey, value: filterSelections)
+        }
+    }
     
     var prevFilterSelections = [FilterModel]()
     
-    var sortDatas = [
+    @Published var sortDatas = [
         //        SortModel(title: "None", type: 0, order: 0),
         SortModel(title: "Title Asc", type: 1, order: 1),
         SortModel(title: "Title Desc", type: 1, order: -1),
         SortModel(title: "Updated Asc", type: 2, order: 1),
-        SortModel(title: "Updated Desc", type: 2, order: -1, isSelected:  true),
+        SortModel(title: "Updated Desc", type: 2, order: -1),
         SortModel(title: "Remind Asc", type: 3, order: 1),
         SortModel(title: "Remind Desc", type: 3, order: -1)
     ]
     
     ///`[sortSelection]` is one sort item that is selected by user
-    @Published var sortSelection: SortModel = SortModel.example
+    @Published var sortSelection: SortModel = SortModel.example {
+        didSet{
+            saveNeedEncodedData(key: self.selectedSortKey, value: self.sortSelection)
+        }
+    }
     
     //Setting View
     ///To indicate status of Local Notification
@@ -69,45 +81,56 @@ class HomeViewModel: ObservableObject {
     ///-1: denied
     @Published var localNotiStatus: Int = 0 {
         didSet {//didSet is called whether localNotiStatus is changed
-            UserDefaults.standard.set(localNotiStatus, forKey: localNotiKey)
+            UserDefaults.standard.set(self.localNotiStatus, forKey: self.localNotiKey)
         }
     }
     
     @Published var toggleNotiStatus: Bool = false {
         didSet {//didSet is called whether toggleNotiStatus is changed
-            UserDefaults.standard.set(toggleNotiStatus, forKey: toggleNotiKey)
+            UserDefaults.standard.set(self.toggleNotiStatus, forKey: self.toggleNotiKey)
         }
     }
     
-    let localNotiKey:String = "localNotiKey"
-    let toggleNotiKey: String = "toggleNotiKey"
-    
     init() {
+        getSavedSettings()
         getItems()
-        getData()
     }
     
     /// To retrieve real items from local storage
     func getItems() {
         guard
-            let data = UserDefaults.standard.data(forKey: itemsKey),
+            let data = UserDefaults.standard.data(forKey: self.itemsKey),
             let savedItems = try? JSONDecoder().decode([NoteModel].self, from: data)
         else { return }
         self.items = savedItems
-        self.sortSelection = self.sortDatas.first(where: { $0.type == 2 && $0.order == -1}) ?? SortModel(title: "Date Desc", type: 2, order: -1) //init sort by date desc
         refreshRenderItem()
     }
     
-    /// To save real items to local storage
-    func saveItem() {
-        if let encodedData = try? JSONEncoder().encode(items) {
-            UserDefaults.standard.set(encodedData, forKey: itemsKey)
+    /// To save Data that need Encode, like: object, list objects to local storage
+    func saveNeedEncodedData<T : Encodable>(key: String, value: T) {
+        if let encodedData = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(encodedData, forKey: key)
         }
     }
     
-    func getData() {
-        localNotiStatus = UserDefaults.standard.integer(forKey: localNotiKey)
-        toggleNotiStatus = UserDefaults.standard.bool(forKey: toggleNotiKey)
+    func getSavedSettings() {
+        localNotiStatus = UserDefaults.standard.integer(forKey: self.localNotiKey)
+        toggleNotiStatus = UserDefaults.standard.bool(forKey: self.toggleNotiKey)
+        guard
+            let data = UserDefaults.standard.data(forKey: self.selectedSortKey),
+            let savedSortItem = try? JSONDecoder().decode(SortModel.self, from: data)
+        else { return }
+        let index = sortDatas.firstIndex(where: {
+            return $0.type == savedSortItem.type && $0.order == savedSortItem.order
+        })
+        self.sortDatas[index ?? 3].isSelected = true
+        self.sortSelection = sortDatas[index ?? 3]
+        
+        guard
+            let data = UserDefaults.standard.data(forKey: self.selectedFiltersKey),
+            let savedSelectedFilters = try? JSONDecoder().decode([FilterModel].self, from: data)
+        else { return }
+        self.filterSelections = savedSelectedFilters
     }
     
     /// To refresh `renderItems` by sort selection and filter selections
