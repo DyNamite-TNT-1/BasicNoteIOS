@@ -402,6 +402,7 @@ class HomeViewModel: ObservableObject {
 //        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
 //        UNUserNotificationCenter.current().add(request)
         //
+        UserDefaults.standard.set(0, forKey: "NotificationCountBadge")
         for index in 0..<self.items.count {
             if (self.items[index].isNeedRemind) {
                 let item = self.items[index]
@@ -409,11 +410,17 @@ class HomeViewModel: ObservableObject {
                 content.title = item.title
                 content.body = item.description
                 content.sound = .default
-                content.badge = content.badge ?? 0 + 1 as NSNumber
+                let countBadge = UserDefaults.standard.integer(forKey: "NotificationCountBadge") + 1
+                UserDefaults.standard.set(countBadge, forKey: "NotificationCountBadge")
+                content.badge = countBadge as NSNumber
+                
+                //remove notification with the same id, to update it.
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [item.id])
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.id])
                 
                 let dateComponent = Calendar.current.dateComponents([.day, .month, .hour, .minute], from: item.remindDateTime)
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
-                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: item.id, content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request)
             }
         }

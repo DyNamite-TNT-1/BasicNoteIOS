@@ -44,7 +44,6 @@ struct HomeView: View {
             }
         }
         .onAppear{
-            UIApplication.shared.applicationIconBadgeNumber = 0
             homeViewModel.doNotification()
         }
         .navigationTitle("Todo List 📝")

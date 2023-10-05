@@ -43,7 +43,6 @@ struct SettingView: View {
             }
         }
         .onAppear{
-            UIApplication.shared.applicationIconBadgeNumber = 0
             homeViewModel.checkPermission()
         }
         .navigationTitle("Settings")
