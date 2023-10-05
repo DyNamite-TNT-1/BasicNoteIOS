@@ -18,11 +18,13 @@ struct BasicNoteIOSApp: App {
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                print("active")
+                UIApplication.shared.applicationIconBadgeNumber = 0
+                UserDefaults.standard.set(0, forKey: "NotificationCountBadge")
+//                print("active")
             } else if newPhase == .inactive {
-                print("inactive")
+//                print("inactive")
             } else if newPhase == .background {
-                print("background")
+//                print("background")
             }
         }
     }
