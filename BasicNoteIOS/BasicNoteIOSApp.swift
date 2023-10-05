@@ -10,10 +10,20 @@ import SwiftUI
 @main
 struct BasicNoteIOSApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some Scene {
         WindowGroup {
             AppContainer()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                print("active")
+            } else if newPhase == .inactive {
+                print("inactive")
+            } else if newPhase == .background {
+                print("background")
+            }
         }
     }
 }
