@@ -37,5 +37,4 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("Finished Launching")
         return true
     }
-    
 }

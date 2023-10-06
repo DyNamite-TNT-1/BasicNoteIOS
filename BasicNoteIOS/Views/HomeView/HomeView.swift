@@ -11,7 +11,7 @@ struct HomeView: View {
     
     @EnvironmentObject var homeViewModel: HomeViewModel
     @State private var query = ""
-    @State var isShowFilterSheet: Bool = false
+    @State private var isShowFilterSheet: Bool = false
     
     var body: some View {
         ZStack {
@@ -50,37 +50,36 @@ struct HomeView: View {
         .navigationBarItems(leading: EditButton(),
                             trailing:
                                 HStack{
-            NavigationLink {
-                AddItemView()
-            } label: {
-                Label("Add", systemImage: "plus.circle")
-            }
-            SortView()
-        })
-        .safeAreaInset(edge: .bottom, alignment: .trailing) {
             Button {
                 isShowFilterSheet.toggle()
             } label: {
                 Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
-                    .bold()
-                    .font(.title2)
-                    .padding(8)
-                    .background(.gray.opacity(0.1),
-                                in: Capsule())
-                    .padding(.trailing, 8)
-                    .symbolVariant(.circle.fill)
             }
-            .padding(.bottom, 8)
             .overlay(alignment: .topLeading) {
                 Text("\(homeViewModel.filterSelections.count)")
                     .font(.footnote)
                     .foregroundColor(.white)
-                    .frame(width: 28, height: 28)
+                    .frame(width: 20, height: 20)
                     .background(.blue, in: Capsule())
-                    .offset(x: -10, y: -15)
+                    .offset(x: 0, y: 15)
                     .opacity(homeViewModel.filterSelections.isEmpty ? 0 : 1)
             }
-            
+            SortView()
+        })
+        .safeAreaInset(edge: .bottom, alignment: .trailing) {
+            NavigationLink {
+                AddItemView()
+            } label: {
+                Label("Compose", systemImage: "pencil")
+                .bold()
+                .font(.title2)
+                .padding(8)
+                .background(.gray.opacity(0.1),
+                            in: Capsule())
+                .padding(.trailing, 8)
+                .symbolVariant(.circle.fill)
+            }
+            .padding(.bottom, 8)
         }
         .sheet(isPresented: $isShowFilterSheet) {
             NavigationStack {
