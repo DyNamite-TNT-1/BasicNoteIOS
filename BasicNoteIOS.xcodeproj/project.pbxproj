@@ -21,6 +21,8 @@
 		926EA5AB2AA8348F0092D881 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AA2AA8348F0092D881 /* HomeViewModel.swift */; };
 		926EA5AD2AA85D150092D881 /* NoNoteDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5AC2AA85D150092D881 /* NoNoteDataView.swift */; };
 		926EA5B02AA873940092D881 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 926EA5AF2AA873940092D881 /* LaunchScreen.storyboard */; };
+		926FBF942ACFC29100028706 /* PriorityEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926FBF932ACFC29100028706 /* PriorityEnum.swift */; };
+		926FBF972ACFC41E00028706 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926FBF962ACFC41E00028706 /* PriorityView.swift */; };
 		92842C602AAB169400DD4900 /* NoteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92842C5F2AAB169400DD4900 /* NoteDetailView.swift */; };
 		928E50832AB00D6F00D29756 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928E50822AB00D6F00D29756 /* FilterModel.swift */; };
 		928E50852AB010AE00D29756 /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928E50842AB010AE00D29756 /* FilterTag.swift */; };
@@ -44,6 +46,8 @@
 		926EA5AA2AA8348F0092D881 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		926EA5AC2AA85D150092D881 /* NoNoteDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNoteDataView.swift; sourceTree = "<group>"; };
 		926EA5AF2AA873940092D881 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		926FBF932ACFC29100028706 /* PriorityEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityEnum.swift; sourceTree = "<group>"; };
+		926FBF962ACFC41E00028706 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
 		92842C5F2AAB169400DD4900 /* NoteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailView.swift; sourceTree = "<group>"; };
 		928E50822AB00D6F00D29756 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModel.swift; sourceTree = "<group>"; };
 		928E50842AB010AE00D29756 /* FilterTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 		926EA5902AA82A980092D881 /* BasicNoteIOS */ = {
 			isa = PBXGroup;
 			children = (
+				926FBF922ACFC26100028706 /* Enums */,
 				926EA5A12AA82DB20092D881 /* ViewModels */,
 				926EA5A02AA82D740092D881 /* Models */,
 				926EA59F2AA82D6B0092D881 /* Views */,
@@ -112,6 +117,9 @@
 		926EA59F2AA82D6B0092D881 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				928E50862AB0141700D29756 /* FilterView */,
+				921676F82AB157C100A5B074 /* SortView */,
+				926FBF952ACFC3F700028706 /* PriorityView */,
 				92CC3B702AB7E2BF008CF9B4 /* SettingView */,
 				92CC3B6F2AB7E27A008CF9B4 /* HomeView */,
 				926EA5AF2AA873940092D881 /* LaunchScreen.storyboard */,
@@ -138,6 +146,22 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		926FBF922ACFC26100028706 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				926FBF932ACFC29100028706 /* PriorityEnum.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		926FBF952ACFC3F700028706 /* PriorityView */ = {
+			isa = PBXGroup;
+			children = (
+				926FBF962ACFC41E00028706 /* PriorityView.swift */,
+			);
+			path = PriorityView;
+			sourceTree = "<group>";
+		};
 		928E50862AB0141700D29756 /* FilterView */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,8 +175,6 @@
 		92CC3B6F2AB7E27A008CF9B4 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
-				921676F82AB157C100A5B074 /* SortView */,
-				928E50862AB0141700D29756 /* FilterView */,
 				926EA5A42AA82E790092D881 /* HomeView.swift */,
 				926EA5A62AA82EBB0092D881 /* NoteItemRowView.swift */,
 				926EA5A82AA82ECE0092D881 /* AddItemView.swift */,
@@ -249,9 +271,11 @@
 			files = (
 				928E50882AB0146600D29756 /* FilterBar.swift in Sources */,
 				928E50852AB010AE00D29756 /* FilterTag.swift in Sources */,
+				926FBF972ACFC41E00028706 /* PriorityView.swift in Sources */,
 				926EA5A52AA82E790092D881 /* HomeView.swift in Sources */,
 				928E50832AB00D6F00D29756 /* FilterModel.swift in Sources */,
 				920B930A2AB0173300EC7629 /* FilterView.swift in Sources */,
+				926FBF942ACFC29100028706 /* PriorityEnum.swift in Sources */,
 				926EA5AD2AA85D150092D881 /* NoNoteDataView.swift in Sources */,
 				92CC3B722AB7E2E3008CF9B4 /* SettingView.swift in Sources */,
 				92CC3B742AB7E3BD008CF9B4 /* AppContainer.swift in Sources */,

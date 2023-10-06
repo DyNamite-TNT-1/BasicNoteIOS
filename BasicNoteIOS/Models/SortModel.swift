@@ -6,12 +6,11 @@
 //
 
 import Foundation
-struct SortModel: Identifiable, Codable {
-    //id will be renewed whenever open app(caused by UUID). So, you need to use it carefully.
+struct SortModel: Identifiable, Codable, Equatable {
     let id: String
     let title: String
-    let type: Int // 1: title, 2: date, 3: remind
-    let order: Int // -1: desc, 1: asc
+    let type: Int // 0: by hand, 1: title, 2: date, 3: remind
+    let order: Int // 0: by hand, -1: desc, 1: asc
     var isSelected: Bool = false
     
     init(id: String = UUID().uuidString, title: String, type: Int, order: Int, isSelected: Bool = false) {
@@ -22,5 +21,5 @@ struct SortModel: Identifiable, Codable {
         self.isSelected = isSelected
     }
     
-    static let example = SortModel(title: "Date Desc", type: 2, order: -1)
+    static let example = SortModel(title: "By Hand", type: 0, order: 0)
 }

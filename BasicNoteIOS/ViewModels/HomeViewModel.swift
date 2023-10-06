@@ -55,7 +55,7 @@ class HomeViewModel: ObservableObject {
     var prevFilterSelections = [FilterModel]()
     
     @Published var sortDatas = [
-        //        SortModel(title: "None", type: 0, order: 0),
+        //        SortModel(title: "By Hand", type: 0, order: 0),
         SortModel(title: "Title Asc", type: 1, order: 1),
         SortModel(title: "Title Desc", type: 1, order: -1),
         SortModel(title: "Updated Asc", type: 2, order: 1),
@@ -184,11 +184,12 @@ class HomeViewModel: ObservableObject {
     
     /*
      Func "moveItem" not correct, since the sorting feature was added. Don't use it.
-     Previously, this feature was made to learn swiftui. So, this no need in business.
+     Previously, this feature was made to learn swiftui.
+     After adding sort, filter feature. "moveItem" is conflict.
      Solutions:
-     + Remove this forever.
-     + Add a new sorter called "By hand". If move item, apply this sorter.
-     Last updated: temporarily, disable this to update later.
+     + Remove this feature forever.
+     + Add a new sorter called "By hand". If move item, apply this sorter. (Refer to IOS Note App)
+     Temporarily, disable this to update later.
      */
     func moveItem(from: IndexSet, to: Int) {
         items.move(fromOffsets: from, toOffset: to);
@@ -297,6 +298,14 @@ class HomeViewModel: ObservableObject {
      */
     private func sortByThis(firstNote: NoteModel, secondNote: NoteModel) -> Bool {
         switch (self.sortSelection.type, self.sortSelection.order) {
+        case (0, 0):
+            if let firstIndex = self.items.firstIndex(where: { $0.id == firstNote.id
+            }),
+               let secondIndex = self.items.firstIndex(where: { $0.id == secondNote.id
+               }) {
+                return firstIndex < secondIndex
+            }
+            return false
         case (1, 1):
             return firstNote.title.lowercased() < secondNote.title.lowercased()
         case (1, -1):

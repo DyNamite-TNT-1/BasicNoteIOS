@@ -19,7 +19,7 @@ struct NoteItemRowView: View {
                     .onTapGesture {
                         onToggleDone?()
                     }
-                VStack(alignment: .leading){
+                VStack(alignment: .leading, spacing: 0){
                     Text(item.title)
                         .font(.system(size: 18, weight: .semibold))
                     if !item.description.isEmpty {
@@ -31,8 +31,9 @@ struct NoteItemRowView: View {
                             .font(.footnote)
                             .foregroundColor(item.isNeedRemind ? .accentColor : .gray)
                         if (item.image != nil) {
-                               Image(systemName: "photo.on.rectangle.angled")
+                            Image(systemName: "photo.on.rectangle.angled")
                                 .resizable()
+                                .foregroundColor(.blue)
                                 .frame(width: 16, height: 16)
                         }
                     }

@@ -33,7 +33,7 @@ struct HomeView: View {
                         }
                     }
                     .onDelete(perform: homeViewModel.deleteItem)
-                    //disable onMove due to conflict with sorting, review the business later
+                    //disable onMove due to conflict with sorting, filtering. Review the business later
                     //                    .onMove(perform: homeViewModel.moveItem)
                 }
                 .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a note")

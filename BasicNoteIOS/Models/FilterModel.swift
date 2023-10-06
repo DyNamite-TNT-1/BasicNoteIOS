@@ -8,7 +8,6 @@
 import Foundation
 
 struct FilterModel: Identifiable, Codable {
-    //id will be renewed whenever open app(caused by UUID). So, you need to use it carefully.
     let id: String
     let imageName: String
     let title: String

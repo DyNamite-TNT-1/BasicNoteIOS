@@ -32,6 +32,11 @@ struct AddItemView: View {
             Section("Todo description") {
                 TextField("Type description here...", text: $descriptionTxtField, axis: .vertical)
             }
+            
+            Section("Priority") {
+                PriorityView()
+            }
+            
             Section("Reminder") {
                 Toggle("Need remind?", isOn: $isToggledRemind)
                 VStack(alignment: .leading) {

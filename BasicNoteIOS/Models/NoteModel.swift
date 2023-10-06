@@ -9,7 +9,6 @@ import Foundation
 
 //Immutable Struct
 struct NoteModel: Identifiable, Codable {
-    //id will be renewed whenever open app(caused by UUID). So, you need to use it carefully.
     let id: String
     let title: String
     let description: String
@@ -18,8 +17,9 @@ struct NoteModel: Identifiable, Codable {
     let image: Data?
     let isNeedRemind: Bool
     let remindDateTime: Date
+    let priority: Priority
     
-    init(id: String = UUID().uuidString, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date) {
+    init(id: String = UUID().uuidString, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date, priority: Priority = .none) {
         self.id = id
         self.title = title
         self.description = description
@@ -28,6 +28,7 @@ struct NoteModel: Identifiable, Codable {
         self.image = image
         self.isNeedRemind = isNeedRemind
         self.remindDateTime = remindDateTime
+        self.priority = priority
     }
     
     static let exampleUndone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil, isNeedRemind: true, remindDateTime: Date())

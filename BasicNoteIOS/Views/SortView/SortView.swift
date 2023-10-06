@@ -27,7 +27,6 @@ struct SortView: View {
         } label: {
             Label(homeViewModel.sortSelection.title, systemImage: "arrow.up.arrow.down.circle")
         }
-
     }
 }
 
