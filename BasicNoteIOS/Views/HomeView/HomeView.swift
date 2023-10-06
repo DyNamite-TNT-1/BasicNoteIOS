@@ -41,6 +41,7 @@ struct HomeView: View {
                     homeViewModel.searchItems(query: newQuery)
                 }
                 .animation(.default, value: query)
+                .animation(.default, value: homeViewModel.sortSelection)
             }
         }
         .onAppear{

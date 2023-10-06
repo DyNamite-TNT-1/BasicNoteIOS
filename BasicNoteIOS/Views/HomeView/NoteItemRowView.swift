@@ -26,21 +26,17 @@ struct NoteItemRowView: View {
                         Text(item.description)
                             .font(.body)
                     }
-                    Text(item.remindDateTime.formatted(date: .abbreviated, time: .shortened))
-                        .font(.footnote)
-                        .foregroundColor(item.isNeedRemind ? .accentColor : .gray)
+                    HStack{
+                        Text(item.remindDateTime.formatted(date: .abbreviated, time: .shortened))
+                            .font(.footnote)
+                            .foregroundColor(item.isNeedRemind ? .accentColor : .gray)
+                        if (item.image != nil) {
+                               Image(systemName: "photo.on.rectangle.angled")
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                        }
+                    }
                 }
-            }
-            
-            if let selectedPhotoData = item.image,
-               let uiImage = UIImage(data: selectedPhotoData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxHeight: 120)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    .zIndex(-1)
             }
         }
         .font(.title2)
