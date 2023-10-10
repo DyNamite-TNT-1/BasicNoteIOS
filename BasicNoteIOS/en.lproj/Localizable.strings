@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  BasicNoteIOS
+
+  Created by hanbiro - ANHDUC on 10/10/23.
+  
+*/
+
+"title_str" = "Title";
+"type_title_str" = "Type title";
+"description_str" = "Description";
+"type_description_str" = "Type description";
+"priority_str" = "Priority";
+"none_str" = "None";
+"low_str" = "Low";
+"medium_str" = "Medium";
+"high_str" = "High";
+"reminder_str" = "Reminder";
+"remind_ask_need_str" = "Need Remind?";
+"remind_schedule_str" = "Remind Schedule";
+"image_str" = "Image";
+"change_image_str" = "Change image";
+"add_image_str" = "Add image";
+"remove_image_str" = "Remove image";

@@ -17,9 +17,9 @@ struct PriorityView: View {
                 selectedPriority = Priority.allCases[0]
             } label: {
                 if (selectedPriority == Priority.allCases[0]) {
-                    Label(Priority.allCases[0].rawValue, systemImage: "checkmark")
+                    Label(Priority.allCases[0].localizedString(), systemImage: "checkmark")
                 } else {
-                    Text(Priority.allCases[0].rawValue)
+                    Text(Priority.allCases[0].localizedString())
                 }
             }
             Divider()
@@ -28,15 +28,15 @@ struct PriorityView: View {
                     selectedPriority = Priority.allCases[index]
                 } label: {
                     if (selectedPriority == Priority.allCases[index]) {
-                        Label(Priority.allCases[index].rawValue, systemImage: "checkmark")
+                        Label(Priority.allCases[index].localizedString(), systemImage: "checkmark")
                     } else {
-                        Text(Priority.allCases[index].rawValue)
+                        Text(Priority.allCases[index].localizedString())
                     }
                 }
             }
         } label: {
             HStack{
-                Text(selectedPriority.rawValue)
+                Text(selectedPriority.localizedString())
                 Image(systemName: "arrow.up.and.down")
             }
             .foregroundColor(.gray)

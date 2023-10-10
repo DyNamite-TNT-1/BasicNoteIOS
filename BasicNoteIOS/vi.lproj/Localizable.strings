@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  BasicNoteIOS
+
+  Created by hanbiro - ANHDUC on 10/10/23.
+  
+*/
+
+"title_str" = "Tiêu đề";
+"type_title_str" = "Nhập tiêu đề";
+"description_str" = "Mô tả";
+"type_description_str" = "Nhập mô tả";
+"priority_str" = "Mức ưu tiên";
+"none_str" = "Không có";
+"low_str" = "Thấp";
+"medium_str" = "Trung bình";
+"high_str" = "Cao";
+"reminder_str" = "Lời nhắc";
+"remind_ask_need_str" = "Cần nhắc ghi chú?";
+"remind_schedule_str" = "Lịch trình nhắc";
+"image_str" = "Hình ảnh";
+"change_image_str" = "Thay đổi ảnh";
+"add_image_str" = "Thêm ảnh";
+"remove_image_str" = "Xoá ảnh";

@@ -28,33 +28,32 @@ struct AddItemView: View {
     
     var body: some View {
         List {
-            Section("Todo title") {
-                TextField("Type title here...", text: $titleTxtField)
+            Section("title_str") {
+                TextField("type_title_str", text: $titleTxtField)
             }
-            Section("Todo description") {
-                TextField("Type description here...", text: $descriptionTxtField, axis: .vertical)
+            Section("description-str") {
+                TextField("type_description_str", text: $descriptionTxtField, axis: .vertical)
             }
             
-            Section("Priority") {
+            Section("priority_str") {
                 HStack {
-                    Text("Mức ưu tiên")
+                    Text("priority_str")
                         .foregroundColor(.black)
                     Spacer()
-                    PriorityView(
-                    selectedPriority: $selectedPriority)
+                    PriorityView(selectedPriority: $selectedPriority)
                 }
             }
             
-            Section("Reminder") {
-                Toggle("Need remind?", isOn: $isToggledRemind)
+            Section("reminder_str") {
+                Toggle("remind_ask_need_str", isOn: $isToggledRemind)
                 VStack(alignment: .leading) {
-                    Text("Remind Schedule:")
+                    Text("remind_schedule_str")
                         .foregroundColor(.black)
                     DatePicker("Schedule", selection: $remindDateTime, in: Date.now...)
                         .labelsHidden()
                 }
             }
-            Section("Image") {
+            Section("image_str") {
                 if let selectedPhotoData, let uiImage = UIImage(data: selectedPhotoData) {
                     Image(uiImage: uiImage)
                         .resizable()
@@ -67,7 +66,7 @@ struct AddItemView: View {
                 PhotosPicker(selection: $selectedPhoto,
                              matching: .images,
                              photoLibrary: .shared()) {
-                    Label(selectedPhotoData != nil ? "Change Image" : "Add Image", systemImage: "photo")
+                    Label(selectedPhotoData != nil ? "change_image_str" : "add_image_str", systemImage: "photo")
                 }
                 if selectedPhotoData != nil {
                     Button(role: .destructive) {
@@ -76,7 +75,7 @@ struct AddItemView: View {
                             selectedPhotoData = nil
                         }
                     } label: {
-                        Label("Remove Image", systemImage: "xmark")
+                        Label("remove_image_str", systemImage: "xmark")
                             .foregroundStyle(.red)
                     }
                 }
