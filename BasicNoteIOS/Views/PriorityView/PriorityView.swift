@@ -9,11 +9,21 @@ import SwiftUI
 
 struct PriorityView: View {
     
-    @State private var selectedPriority: Priority = .none
+    @Binding var selectedPriority: Priority
     
     var body: some View {
         Menu {
-            ForEach(0..<Priority.allCases.count, id: \.self){index in
+            Button {
+                selectedPriority = Priority.allCases[0]
+            } label: {
+                if (selectedPriority == Priority.allCases[0]) {
+                    Label(Priority.allCases[0].rawValue, systemImage: "checkmark")
+                } else {
+                    Text(Priority.allCases[0].rawValue)
+                }
+            }
+            Divider()
+            ForEach(1..<Priority.allCases.count, id: \.self){index in
                 Button {
                     selectedPriority = Priority.allCases[index]
                 } label: {
@@ -26,21 +36,16 @@ struct PriorityView: View {
             }
         } label: {
             HStack{
-                Text("Mức ưu tiên")
-                    .foregroundColor(.black)
-                Spacer()
-                HStack{
-                    Text(selectedPriority.rawValue)
-                    Image(systemName: "arrow.up.and.down")
-                }
-                .foregroundColor(.gray)
+                Text(selectedPriority.rawValue)
+                Image(systemName: "arrow.up.and.down")
             }
+            .foregroundColor(.gray)
         }
     }
 }
 
 struct PriorityView_Previews: PreviewProvider {
     static var previews: some View {
-        PriorityView()
+        PriorityView(selectedPriority:.constant(Priority.medium))
     }
 }

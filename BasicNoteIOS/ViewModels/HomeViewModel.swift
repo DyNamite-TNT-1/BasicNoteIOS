@@ -196,8 +196,8 @@ class HomeViewModel: ObservableObject {
         self.renderItems = self.items
     }
     
-    func addItem(title: String, description: String, createDate: Date, image: Data? = nil, isNeedRemind: Bool, remindDateTime: Date) {
-        let newItem = NoteModel(title: title, description: description, createDate: createDate, isCompleted: false, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+    func addItem(title: String, description: String, createDate: Date, image: Data? = nil, isNeedRemind: Bool, remindDateTime: Date, priority: Priority) {
+        let newItem = NoteModel(title: title, description: description, createDate: createDate, isCompleted: false, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: priority)
         items.append(newItem)
         refreshRenderItem()
     }
@@ -212,9 +212,9 @@ class HomeViewModel: ObservableObject {
         refreshRenderItem()
     }
     
-    func updateItem(item: NoteModel, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date) {
+    func updateItem(item: NoteModel, title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date, priority: Priority) {
         if let index = items.firstIndex(where: { $0.id == item.id }) {
-            items[index] = item.updateNote(title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+            items[index] = item.updateNote(title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: priority)
         }
         refreshRenderItem()
     }

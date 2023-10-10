@@ -20,8 +20,15 @@ struct NoteItemRowView: View {
                         onToggleDone?()
                     }
                 VStack(alignment: .leading, spacing: 0){
-                    Text(item.title)
-                        .font(.system(size: 18, weight: .semibold))
+                    HStack{
+                        if !item.priorityIcon.isEmpty {
+                            Image(systemName: item.priorityIcon)
+                                .font(.system(size: 16))
+                                .foregroundColor(.red)
+                        }
+                        Text(item.title)
+                            .font(.system(size: 18, weight: .semibold))
+                    }
                     if !item.description.isEmpty {
                         Text(item.description)
                             .font(.body)

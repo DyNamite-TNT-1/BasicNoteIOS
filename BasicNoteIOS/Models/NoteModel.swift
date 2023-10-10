@@ -31,16 +31,31 @@ struct NoteModel: Identifiable, Codable {
         self.priority = priority
     }
     
-    static let exampleUndone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil, isNeedRemind: true, remindDateTime: Date())
-    
-    static let exampleDone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: true, image: nil, isNeedRemind: false, remindDateTime: Date())
-    
-    func updateCompletion() -> NoteModel {
-        return NoteModel(id: id, title: title, description: description, createDate: createDate, isCompleted: !isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+    var priorityIcon: String {
+        get {
+            switch priority {
+            case .low:
+                return "star";
+            case .medium:
+                return "star.leadinghalf.filled";
+            case .high:
+                return "star.fill";
+            default:
+                return "";
+            }
+        }
     }
     
-    func updateNote(title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date) -> NoteModel {
-        return NoteModel(id: id,  title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+    static let exampleUndone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: false, image: nil, isNeedRemind: true, remindDateTime: Date(), priority: Priority.medium)
+    
+    static let exampleDone = NoteModel(title: "First Note!", description: "This is description! You need to do follow step by step. If not, you will fail. First, do step one. Then, do step two.", createDate: Date(), isCompleted: true, image: nil, isNeedRemind: false, remindDateTime: Date(), priority: Priority.high)
+    
+    func updateCompletion() -> NoteModel {
+        return NoteModel(id: id, title: title, description: description, createDate: createDate, isCompleted: !isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: priority)
+    }
+    
+    func updateNote(title: String, description: String, createDate: Date, isCompleted: Bool, image: Data?, isNeedRemind: Bool, remindDateTime: Date, priority: Priority) -> NoteModel {
+        return NoteModel(id: id,  title: title, description: description, createDate: createDate, isCompleted: isCompleted, image: image, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: priority)
     }
     
     func chooseThis(onlyToday:Bool) -> Bool{

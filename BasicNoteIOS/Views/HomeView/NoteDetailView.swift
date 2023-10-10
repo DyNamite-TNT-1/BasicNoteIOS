@@ -34,6 +34,8 @@ struct NoteDetailView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
+    @State var selectedPriority: Priority
+    
     init(item: NoteModel) {
         self.item = item
         self._titleTxtField = State(initialValue: item.title)
@@ -44,6 +46,7 @@ struct NoteDetailView: View {
         self._isShowedRemindTime = State(initialValue: false)
         self._remindDateTime = State(initialValue: item.remindDateTime)
         self._selectedPhotoData = State(initialValue: item.image)
+        self._selectedPriority = State(initialValue: item.priority)
     }
     
     var btnBack : some View {
@@ -64,7 +67,8 @@ struct NoteDetailView: View {
             item.isCompleted != isDone ||
             item.isNeedRemind != isNeedRemind ||
             item.remindDateTime != remindDateTime ||
-            item.image != selectedPhotoData) {
+            item.image != selectedPhotoData ||
+            item.priority != selectedPriority) {
             return true
         } else {
             return false
@@ -97,6 +101,13 @@ struct NoteDetailView: View {
                     Text("Updated:")
                     Spacer()
                     Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
+                }
+                HStack {
+                    Text("Mức ưu tiên")
+                        .foregroundColor(.black)
+                    Spacer()
+                    PriorityView(
+                    selectedPriority: $selectedPriority)
                 }
             }
             Section("Remind Schedule") {
@@ -230,7 +241,8 @@ struct NoteDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: btnBack, trailing: Button(action: {
-            homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: selectedPhotoData, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime)
+            homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: selectedPhotoData, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: selectedPriority
+            )
             self.presentationMode.wrappedValue.dismiss()
         }, label: {
             Text("Save")

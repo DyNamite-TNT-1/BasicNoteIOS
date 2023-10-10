@@ -24,6 +24,8 @@ struct AddItemView: View {
     @State var isToggledRemind: Bool = true
     @State var remindDateTime: Date = Date.now
     
+    @State var selectedPriority: Priority = .none
+    
     var body: some View {
         List {
             Section("Todo title") {
@@ -34,7 +36,13 @@ struct AddItemView: View {
             }
             
             Section("Priority") {
-                PriorityView()
+                HStack {
+                    Text("Mức ưu tiên")
+                        .foregroundColor(.black)
+                    Spacer()
+                    PriorityView(
+                    selectedPriority: $selectedPriority)
+                }
             }
             
             Section("Reminder") {
@@ -88,7 +96,7 @@ struct AddItemView: View {
     
     func saveButtonPressed() {
         if textIsAppropriate() {
-            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData, isNeedRemind: isToggledRemind, remindDateTime: remindDateTime)
+            homeView.addItem(title: titleTxtField, description: descriptionTxtField, createDate: Date(), image: selectedPhotoData, isNeedRemind: isToggledRemind, remindDateTime: remindDateTime, priority: selectedPriority)
             //to pop view
             presentationMode.wrappedValue.dismiss()
         }
