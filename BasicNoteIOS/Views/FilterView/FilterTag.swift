@@ -29,6 +29,6 @@ struct FilterTag: View {
 struct FilterTag_Previews: PreviewProvider {
     
     static var previews: some View {
-        FilterTag(filterData: FilterModel.example)
+        FilterTag(filterData: FilterModel.remindDate)
     }
 }

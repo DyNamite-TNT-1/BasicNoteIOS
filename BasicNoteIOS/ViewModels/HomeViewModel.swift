@@ -40,9 +40,9 @@ class HomeViewModel: ObservableObject {
     let selectedFiltersKey: String = "selectedFiltersKey"
     
     var filterDatas = [
-        FilterModel(imageName: "bookmark.circle", title: "Today", description: "Reminders's notes are today", type: 0),
-        FilterModel(imageName: "checkmark.circle", title: "Done", description: "Notes're completed", type: 1),
-        FilterModel(imageName: "circle", title: "Undone", description: "Notes're incompleted",type: -1),
+        FilterModel.remindDate,
+        FilterModel.undone,
+        FilterModel.done,
     ]
     
     ///`[filterSelections]` is the list of filter items that are selected by user
