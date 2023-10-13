@@ -6,10 +6,12 @@
   
 */
 
+//Add note
+"add_note_str" = "Thêm ghi chú🖊";
 "title_str" = "Tiêu đề";
-"type_title_str" = "Nhập tiêu đề";
+"enter_title_str" = "Nhập tiêu đề";
 "description_str" = "Mô tả";
-"type_description_str" = "Nhập mô tả";
+"enter_description_str" = "Nhập mô tả";
 "priority_str" = "Mức ưu tiên";
 "none_str" = "Không có";
 "low_str" = "Thấp";
@@ -22,3 +24,42 @@
 "change_image_str" = "Thay đổi ảnh";
 "add_image_str" = "Thêm ảnh";
 "remove_image_str" = "Xoá ảnh";
+"save_str" = "Lưu";
+//HomeView
+"todo_list_str" = "Danh sách ghi chú 📝";
+"home_str" = "Trang chủ";
+"compose_str" = "Soạn";
+"add_something_str" = "Thêm ghi chú 🥳";
+"no_item_title_str" = "Không có ghi chú nào!";
+"no_item_subtitle_str" = "Bạn có phải là một người năng suất không? Tôi nghĩ bạn nên nhấn vào nút thêm và soạn nhiều ghi chú cho danh sách cần làm của bạn!";
+"find_note_str" = "Tìm kiếm ghi chú";
+//Filter
+"dismiss_str" = "Huỷ";
+"done_str" = "Xong";
+"filter_str" = "Lọc ghi chú";
+"today_filter_title_str" = "Hôm nay";
+"done_filter_title_str" = "Hoàn thành";
+"undone_filter_title_str" = "Chưa hoàn thành";
+"today_filter_subtitle_str" = "Lời nhắc của ghi chú là hôm nay";
+"done_filter_subtitle_str" = "Những ghi chú đã hoàn thành";
+"undone_filter_subtitle_str" = "Những ghi chú chưa hoàn thành";
+//Detail Note
+"view_detail_str" = "Xem chi tiết";
+"complete_title_str" = "Hoàn thành?";
+"update_title_str" = "Cập nhật lúc:";
+"target_date_str" = "Ngày nhắc";
+"target_time_str" = "Thời gian nhắc";
+"remind_str" = "Nhắc";
+"no_remind_str" = "Không nhắc";
+"cancel_confirmation_str" = "Xác nhận huỷ";
+"cancel_change_str" = "Huỷ thay đổi";
+"cannot_undo_action_str" = "Bạn không thể hoàn tác hành động này";
+"warning_length_title_str" = "Độ dài tiêu đề của ghi chú phải ít nhất 3 ký tự !!! 🥲😳";
+//Setting
+"setting_str" = "Cài đặt";
+"notification_str" = "Thông báo";
+"notification_desc_str" = "Điều này cho phép ứng dụng gửi thông báo.";
+"alert_notification_str" = "Bạn đã không cho phép thông báo. Đi tới Cài đặt để cho phép nó.";
+"goto_setting_str" = "Đi đến Cài đặt";
+"cancel_str" = "Thoát";
+"language_str" = "Ngôn ngữ";

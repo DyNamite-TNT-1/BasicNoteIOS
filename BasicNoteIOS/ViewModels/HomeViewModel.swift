@@ -91,6 +91,12 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    @Published var currentLang: LanguageModel = LanguageModel.langVI
+    var supportLanguages = [
+        LanguageModel.langVI,
+        LanguageModel.langEN,
+    ]
+    
     init() {
         getSavedSettings()
         getItems()
@@ -444,5 +450,9 @@ class HomeViewModel: ObservableObject {
         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:]) { success in
             print("Settings opened: \(success)") // Prints true
         }
+    }
+    
+    func changeLang(newLang: LanguageModel) {
+        self.currentLang = newLang;
     }
 }

@@ -26,27 +26,36 @@ struct SettingView: View {
         }
         List {
             Section() {
-                Text("This will enable push notifications that items need reminding.")
-                Toggle("Notifications", isOn: $isToggled)
+                Text("notification_desc_str")
+                Toggle("notification_str", isOn: $isToggled)
                     .onChange(of: isToggled, perform: {
                         homeViewModel.onToggle($0)
                     })
-                    .alert("You didn't allow notifications. Go to Settings to allow it.", isPresented: bindingShowAlert) {
-                        Button("Cancel") {
+                    .alert("alert_notification_str", isPresented: bindingShowAlert) {
+                        Button("cancel_str") {
                             isToggled = false
                         }
-                        Button("Go to Settings") {
+                        Button("goto_setting_str") {
                             isToggled = false
                             homeViewModel.goToSetting()
                         }
                     }
             }
+            Section() {
+                HStack {
+                    Text("language_str")
+                        .foregroundColor(.black)
+                    Spacer()
+                    LanguageView()
+                }
+            }
         }
         .onAppear{
             homeViewModel.checkPermission()
         }
-        .navigationTitle("Settings")
+        .navigationTitle("setting_str")
         .navigationBarTitleDisplayMode(.inline)
+        .environment(\.locale, .init(identifier: homeViewModel.currentLang.value))
     }
 }
 

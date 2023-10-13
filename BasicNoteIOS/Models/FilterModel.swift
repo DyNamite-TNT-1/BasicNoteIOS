@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct FilterModel: Identifiable, Codable {
     let id: String
@@ -24,8 +25,16 @@ struct FilterModel: Identifiable, Codable {
         self.isSelected = isSelected
     }
     
-    static let remindDate = FilterModel(imageName: "bookmark.circle", title: "Today", description: "Reminders's notes are today", type: 0)
-    static let undone = FilterModel(imageName: "checkmark.circle", title: "Done", description: "Notes're completed", type: 1)
-    static let done =  FilterModel(imageName: "circle", title: "Undone", description: "Notes're incompleted",type: -1)
+    static let remindDate = FilterModel(imageName: "bookmark.circle", title: "today_filter_title_str", description: "today_filter_subtitle_str", type: 0)
+    static let undone = FilterModel(imageName: "checkmark.circle", title: "done_filter_title_str", description: "done_filter_subtitle_str", type: 1)
+    static let done =  FilterModel(imageName: "circle", title: "undone_filter_title_str", description: "undone_filter_subtitle_str",type: -1)
+    
+    func localizedTitle() -> LocalizedStringKey {
+        return LocalizedStringKey(self.title);
+    }
+    
+    func localizedDescription() -> LocalizedStringKey {
+        return LocalizedStringKey(self.description);
+    }
 }
 

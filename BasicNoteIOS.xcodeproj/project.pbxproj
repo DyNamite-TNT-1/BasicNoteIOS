@@ -11,6 +11,8 @@
 		921676FA2AB157E000A5B074 /* SortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921676F92AB157E000A5B074 /* SortView.swift */; };
 		921676FC2AB1606300A5B074 /* SortModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921676FB2AB1606300A5B074 /* SortModel.swift */; };
 		9223BED62AAF087000DFADAC /* SwiftUIImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 9223BED52AAF087000DFADAC /* SwiftUIImageViewer */; };
+		92446D282AD8E2F700940863 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92446D272AD8E2F700940863 /* LanguageView.swift */; };
+		92446D2A2AD8E39200940863 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92446D292AD8E39200940863 /* LanguageModel.swift */; };
 		926EA5922AA82A980092D881 /* BasicNoteIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926EA5912AA82A980092D881 /* BasicNoteIOSApp.swift */; };
 		926EA5962AA82A990092D881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926EA5952AA82A990092D881 /* Assets.xcassets */; };
 		926EA5992AA82A990092D881 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926EA5982AA82A990092D881 /* Preview Assets.xcassets */; };
@@ -36,6 +38,8 @@
 		920B93092AB0173300EC7629 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		921676F92AB157E000A5B074 /* SortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortView.swift; sourceTree = "<group>"; };
 		921676FB2AB1606300A5B074 /* SortModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortModel.swift; sourceTree = "<group>"; };
+		92446D272AD8E2F700940863 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
+		92446D292AD8E39200940863 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		926EA58E2AA82A980092D881 /* BasicNoteIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BasicNoteIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		926EA5912AA82A980092D881 /* BasicNoteIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicNoteIOSApp.swift; sourceTree = "<group>"; };
 		926EA5952AA82A990092D881 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -77,6 +81,14 @@
 				921676F92AB157E000A5B074 /* SortView.swift */,
 			);
 			path = SortView;
+			sourceTree = "<group>";
+		};
+		92446D262AD8E2D900940863 /* LanguageView */ = {
+			isa = PBXGroup;
+			children = (
+				92446D272AD8E2F700940863 /* LanguageView.swift */,
+			);
+			path = LanguageView;
 			sourceTree = "<group>";
 		};
 		926EA5852AA82A970092D881 = {
@@ -121,6 +133,7 @@
 		926EA59F2AA82D6B0092D881 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				92446D262AD8E2D900940863 /* LanguageView */,
 				928E50862AB0141700D29756 /* FilterView */,
 				921676F82AB157C100A5B074 /* SortView */,
 				926FBF952ACFC3F700028706 /* PriorityView */,
@@ -138,6 +151,7 @@
 				926EA5A22AA82E290092D881 /* NoteModel.swift */,
 				928E50822AB00D6F00D29756 /* FilterModel.swift */,
 				921676FB2AB1606300A5B074 /* SortModel.swift */,
+				92446D292AD8E39200940863 /* LanguageModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -288,11 +302,13 @@
 				926EA5A92AA82ECE0092D881 /* AddItemView.swift in Sources */,
 				92842C602AAB169400DD4900 /* NoteDetailView.swift in Sources */,
 				926EA5AB2AA8348F0092D881 /* HomeViewModel.swift in Sources */,
+				92446D282AD8E2F700940863 /* LanguageView.swift in Sources */,
 				926EA5A72AA82EBB0092D881 /* NoteItemRowView.swift in Sources */,
 				921676FA2AB157E000A5B074 /* SortView.swift in Sources */,
 				921676FC2AB1606300A5B074 /* SortModel.swift in Sources */,
 				926EA5A32AA82E290092D881 /* NoteModel.swift in Sources */,
 				926EA5922AA82A980092D881 /* BasicNoteIOSApp.swift in Sources */,
+				92446D2A2AD8E39200940863 /* LanguageModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

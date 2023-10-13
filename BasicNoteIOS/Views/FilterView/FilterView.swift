@@ -23,8 +23,8 @@ struct FilterView: View {
                     HStack{
                         FilterTag(filterData: homeViewModel.filterDatas[index])
                         Spacer()
-                        Text(homeViewModel.filterDatas[index].description)
-                            .font(.system(size: 14))
+                        Text(homeViewModel.filterDatas[index].localizedDescription())
+                            .font(.system(size: 12))
                     }
                     .onTapGesture {
                         homeViewModel.toggleFilter(at: index)
@@ -33,17 +33,17 @@ struct FilterView: View {
             }
             .listStyle(.plain)
         }
-        .navigationTitle("Filter")
+        .navigationTitle("filter_str")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Dismiss") {
+                Button("dismiss_str") {
                     dismiss()
                     onDismiss()
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Done") {
+                Button("done_str") {
                     dismiss()
                     onDone()
                 }

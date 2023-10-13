@@ -15,7 +15,7 @@ struct AddItemView: View {
     @State var titleTxtField: String = ""
     @State var descriptionTxtField: String = ""
     
-    @State var alertTitle: String = ""
+    @State var alertTitle: LocalizedStringKey = ""
     @State var showAlert: Bool = false
     
     @State var selectedPhoto: PhotosPickerItem?
@@ -27,12 +27,13 @@ struct AddItemView: View {
     @State var selectedPriority: Priority = .none
     
     var body: some View {
+        
         List {
             Section("title_str") {
-                TextField("type_title_str", text: $titleTxtField)
+                TextField("enter_title_str", text: $titleTxtField)
             }
-            Section("description-str") {
-                TextField("type_description_str", text: $descriptionTxtField, axis: .vertical)
+            Section("description_str") {
+                TextField("enter_description_str", text: $descriptionTxtField, axis: .vertical)
             }
             
             Section("priority_str") {
@@ -81,10 +82,10 @@ struct AddItemView: View {
                 }
             }
         }
-        .navigationTitle("Add your note🖊")
+        .navigationTitle(Text("add_note_str"))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing:
-                                Button("Save") {saveButtonPressed()})
+                                Button("save_str") {saveButtonPressed()})
         .alert(isPresented: $showAlert, content: getAlert)
         .task(id: selectedPhoto) {
             if let data = try? await selectedPhoto?.loadTransferable(type: Data.self){
@@ -103,7 +104,7 @@ struct AddItemView: View {
     
     func textIsAppropriate() -> Bool {
         if titleTxtField.count < 3 {
-            alertTitle = "Your new todo item must be at least 3 characters long !!! 🥲😳"
+            alertTitle = "warning_length_title_str"
             showAlert.toggle()
             return false;
         }

@@ -6,10 +6,12 @@
   
 */
 
+//Add note
+"add_note_str" = "Add your note🖊";
 "title_str" = "Title";
-"type_title_str" = "Type title";
+"enter_title_str" = "Enter title";
 "description_str" = "Description";
-"type_description_str" = "Type description";
+"enter_description_str" = "Enter description";
 "priority_str" = "Priority";
 "none_str" = "None";
 "low_str" = "Low";
@@ -22,3 +24,42 @@
 "change_image_str" = "Change image";
 "add_image_str" = "Add image";
 "remove_image_str" = "Remove image";
+"save_str" = "Save";
+//HomeView
+"todo_list_str" = "Todo List 📝";
+"home_str" = "Home";
+"compose_str" = "Compose";
+"add_something_str" = "Add Something 🥳";
+"no_item_title_str" = "There are no items!";
+"no_item_subtitle_str" = "Are you a productive person? I think you should click the add button and add a bunch of items to your todo list!";
+"find_note_str" = "Find note";
+//Filter
+"dismiss_str" = "Dismiss";
+"done_str" = "Done";
+"filter_str" = "Filter";
+"today_filter_title_str" = "Today";
+"done_filter_title_str" = "Done";
+"undone_filter_title_str" = "Undone";
+"today_filter_subtitle_str" = "Reminder's notes are today";
+"done_filter_subtitle_str" = "Notes're completed";
+"undone_filter_subtitle_str" = "Notes're incompleted";
+//Detail Note
+"view_detail_str" = "View Detail";
+"complete_title_str" = "Complete?";
+"update_title_str" = "Updated:";
+"target_date_str" = "Target Date";
+"target_time_str" = "Target Time";
+"remind_str" = "Remind";
+"no_remind_str" = "No Remind";
+"cancel_confirmation_str" = "Cancel Confirmation";
+"cancel_change_str" = "Cancel changes";
+"cannot_undo_action_str" = "You cannot undo this action";
+"warning_length_title_str" = "Your todo's title must be at least 3 characters long !!! 🥲😳";
+//Setting
+"setting_str" = "Settings";
+"notification_str" = "Notifications";
+"notification_desc_str" = "This allows the app to send notifications.";
+"alert_notification_str" = "You didn't allow notifications. Go to Settings to allow it.";
+"goto_setting_str" = "Go to Settings";
+"cancel_str" = "Cancel";
+"language_str" = "Language";

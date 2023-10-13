@@ -21,7 +21,7 @@ struct AppContainer: View {
             .environmentObject(homeViewModel)
             .tabItem {
                 Image(systemName: "house.fill")
-                Text("Home")
+                Text("home_str")
             }
             .tag(0)
             NavigationView {
@@ -31,10 +31,11 @@ struct AppContainer: View {
             .environmentObject(homeViewModel)
             .tabItem{
                 Image(systemName: "gearshape.fill")
-                Text("Setting")
+                Text("setting_str")
             }
             .tag(1)
         }
+        .environment(\.locale, .init(identifier: homeViewModel.currentLang.value))
     }
 }
 

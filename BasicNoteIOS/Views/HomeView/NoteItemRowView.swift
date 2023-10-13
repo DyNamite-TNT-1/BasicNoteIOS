@@ -34,7 +34,10 @@ struct NoteItemRowView: View {
                             .font(.body)
                     }
                     HStack{
-                        Text(item.remindDateTime.formatted(date: .abbreviated, time: .shortened))
+                        Text(item.remindDateTime, style: .time)
+                            .font(.footnote)
+                            .foregroundColor(item.isNeedRemind ? .accentColor : .gray)
+                        Text(item.remindDateTime, style: .date)
                             .font(.footnote)
                             .foregroundColor(item.isNeedRemind ? .accentColor : .gray)
                         if (item.image != nil) {

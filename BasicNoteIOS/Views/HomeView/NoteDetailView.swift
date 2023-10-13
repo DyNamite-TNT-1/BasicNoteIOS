@@ -17,7 +17,7 @@ struct NoteDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var isImageViewerPresented = false
     
-    @State private var alertTitle: String = ""
+    @State private var alertTitle: LocalizedStringKey = ""
     @State private var showAlert: Bool = false
     @State private var showConfirmDialog: Bool = false
     
@@ -57,7 +57,7 @@ struct NoteDetailView: View {
                 self.presentationMode.wrappedValue.dismiss()
             }
         }) {
-            Text("Cancel")
+            Text("cancel_str")
         }
     }
     
@@ -78,14 +78,14 @@ struct NoteDetailView: View {
     var body: some View {
         List{
             Section{
-                TextField("Title", text: $titleTxtField, axis: .vertical)
-                TextField("Description", text: $descriptionTxtField, axis: .vertical)
+                TextField("enter_title_str", text: $titleTxtField, axis: .vertical)
+                TextField("enter_description_str", text: $descriptionTxtField, axis: .vertical)
             }
             Section{
                 HStack{
-                    Text("Completed")
+                    Text("complete_title_str")
                     Spacer()
-                    Text(isDone ? "Done" : "Undone")
+                    Text(isDone ? "done_filter_title_str" : "undone_filter_title_str")
                         .padding(.horizontal)
                         .padding(.vertical, 4)
                         .foregroundColor(.white)
@@ -98,23 +98,23 @@ struct NoteDetailView: View {
                         }
                 }
                 HStack{
-                    Text("Updated:")
+                    Text("update_title_str")
                     Spacer()
                     Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
                 }
                 HStack {
-                    Text("Mức ưu tiên")
+                    Text("priority_str")
                         .foregroundColor(.black)
                     Spacer()
                     PriorityView(
                     selectedPriority: $selectedPriority)
                 }
             }
-            Section("Remind Schedule") {
+            Section("remind_schedule_str") {
                 HStack{
-                    Text("Remind")
+                    Text("remind_ask_need_str")
                     Spacer()
-                    Text(isNeedRemind ? "Remind" : "No Remind")
+                    Text(isNeedRemind ? "remind_str" : "no_remind_str")
                         .padding(.horizontal)
                         .padding(.vertical, 4)
                         .foregroundColor(.white)
@@ -143,7 +143,7 @@ struct NoteDetailView: View {
                             .background(isNeedRemind ? Color.red : Color.gray)
                             .cornerRadius(8)
                         VStack(alignment: .leading) {
-                            Text("Target Date")
+                            Text("target_date_str")
                                 .foregroundColor(.black)
                             if (isNeedRemind) {
                                 Text(remindDateTime, style: .date)
@@ -173,7 +173,7 @@ struct NoteDetailView: View {
                             .background(isNeedRemind ? Color.accentColor : Color.gray)
                             .cornerRadius(8)
                         VStack(alignment: .leading) {
-                            Text("Target Time")
+                            Text("target_time_str")
                                 .foregroundColor(.black)
                             if (isNeedRemind) {
                                 Text(remindDateTime, style: .time)
@@ -190,7 +190,7 @@ struct NoteDetailView: View {
                 }
             }
             
-            Section("Image") {
+            Section("image_str") {
                 if let selectedPhotoData = self.selectedPhotoData, let uiImage = UIImage(data: selectedPhotoData) {
                     Image(uiImage: uiImage)
                         .resizable()
@@ -222,7 +222,7 @@ struct NoteDetailView: View {
                 PhotosPicker(selection: $selectedPhoto,
                              matching: .images,
                              photoLibrary: .shared()) {
-                    Label(selectedPhotoData != nil ? "Change Image" : "Add Image", systemImage: "photo")
+                    Label(selectedPhotoData != nil ? "change_image_str" : "add_image_str", systemImage: "photo")
                 }
                 if selectedPhotoData != nil {
                     Button(role: .destructive) {
@@ -231,32 +231,34 @@ struct NoteDetailView: View {
                             selectedPhotoData = nil
                         }
                     } label: {
-                        Label("Remove Image", systemImage: "xmark")
+                        Label("remove_image_str", systemImage: "xmark")
                             .foregroundStyle(.red)
                     }
                 }
             }
         }
-        .navigationTitle("View Detail")
+        .navigationTitle("view_detail_str")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: btnBack, trailing: Button(action: {
-            homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: selectedPhotoData, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: selectedPriority
-            )
-            self.presentationMode.wrappedValue.dismiss()
+            if textIsAppropriate() {
+                homeViewModel.updateItem(item: item, title: titleTxtField, description: descriptionTxtField, createDate: Date(), isCompleted: isDone, image: selectedPhotoData, isNeedRemind: isNeedRemind, remindDateTime: remindDateTime, priority: selectedPriority
+                )
+                self.presentationMode.wrappedValue.dismiss()
+            }
         }, label: {
-            Text("Save")
+            Text("save_str")
                 .foregroundColor(.accentColor)
         }))
         .alert(isPresented: $showAlert, content: getAlert)
-        .confirmationDialog("Cancel Confirmation", isPresented: $showConfirmDialog) {
+        .confirmationDialog("cancel_confirmation_str", isPresented: $showConfirmDialog) {
             Button(role: .destructive) {
                 self.presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Cancel changes")
+                Text("cancel_change_str")
             }
         } message: {
-            Text("You cannot undo this action")
+            Text("cannot_undo_action_str")
         }
         .task(id: selectedPhoto) {
             if let data = try? await selectedPhoto?.loadTransferable(type: Data.self){
@@ -267,7 +269,7 @@ struct NoteDetailView: View {
     
     func textIsAppropriate() -> Bool {
         if titleTxtField.count < 3 {
-            alertTitle = "Your new todo item must be at least 3 characters long !!! 🥲😳"
+            alertTitle = "warning_length_title_str"
             showAlert.toggle()
             return false;
         }

@@ -2,10 +2,11 @@
 //  PriorityEnum.swift
 //  BasicNoteIOS
 //
-//  Created by hanbiro on 10/6/23.
+//  Created by hanbiro - ANHDUC on 10/6/23.
 //
 
 import Foundation
+import SwiftUI
 
 enum Priority: String, Codable, CaseIterable {
     case none = "none_str"
@@ -13,8 +14,8 @@ enum Priority: String, Codable, CaseIterable {
     case medium = "medium_str"
     case high = "high_str"
     
-    func localizedString() -> String {
-            return NSLocalizedString(self.rawValue, comment: "")
-        }
+    func localizedString() -> LocalizedStringKey {
+        return LocalizedStringKey(self.rawValue)
+    }
 }
     

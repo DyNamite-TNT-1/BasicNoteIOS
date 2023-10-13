@@ -36,7 +36,7 @@ struct HomeView: View {
                     //disable onMove due to conflict with sorting, filtering. Review the business later
                     //                    .onMove(perform: homeViewModel.moveItem)
                 }
-                .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a note")
+                .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "find_note_str")
                 .onChange(of: query) { newQuery in
                     homeViewModel.searchItems(query: newQuery)
                 }
@@ -47,7 +47,7 @@ struct HomeView: View {
         .onAppear{
             homeViewModel.doNotification()
         }
-        .navigationTitle("Todo List 📝")
+        .navigationTitle("todo_list_str")
         .navigationBarItems(leading: EditButton(),
                             trailing:
                                 HStack{
@@ -71,7 +71,7 @@ struct HomeView: View {
             NavigationLink {
                 AddItemView()
             } label: {
-                Label("Compose", systemImage: "pencil")
+                Label("compose_str", systemImage: "pencil")
                 .bold()
                 .font(.title2)
                 .padding(8)

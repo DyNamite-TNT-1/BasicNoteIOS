@@ -12,8 +12,8 @@ struct FilterTag: View {
     var filterData: FilterModel
     
     var body: some View {
-        Label(filterData.title, systemImage: filterData.imageName)
-            .font(.system(size: 16))
+        Label(filterData.localizedTitle(), systemImage: filterData.imageName)
+            .font(.system(size: 14))
             .padding(4)
             .padding(.horizontal, 4)
             .foregroundColor(.white)

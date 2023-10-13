@@ -15,14 +15,14 @@ struct NoNoteDataView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                Text("There are no items!")
+                Text("no_item_title_str")
                     .font(.title)
                     .fontWeight(.semibold)
-                Text("Are you a productive person? I think you should click the add button and add a bunch of items to your todo list!")
+                Text("no_item_subtitle_str")
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 20)
                 NavigationLink(destination: AddItemView(), label: {
-                    Text("Add Something 🥳")
+                    Text("add_something_str")
                         .foregroundColor(.white)
                         .font(.headline)
                         .frame(height: 55)
