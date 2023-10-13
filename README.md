@@ -23,8 +23,11 @@ Note: I have updated this code so the UI is changed little bit.
 * Filter notes.
 * Search notes by query.
 * Local Notification.
+* Multi-languages(In-App Localization).
 
-## Document
-Another documents(For Vietnamese):
+## Reference documents
 * [Guard Keyword trong 10 phút](https://fxstudio.dev/guard-keyword-trong-10-phut/).
 * [Phân biệt @State, @ObservedObject, @EnvironmentObject và @Binding trong SwiftUI](https://viblo.asia/p/phan-biet-atstate-atobservedobject-atenvironmentobject-va-atbinding-trong-swiftui-Do754Pe45M6).
+* [Dynamic Localization without Changing system’s Language](https://kowei-chen.medium.com/swiftui-dynamic-localization-tricks-87c37a6db3e7).
+* [In-App Localize in SwiftUI](https://truongvankien.medium.com/in-app-localize-in-swiftui-72508ea0d83e).
+* And many links, video from StackOverFlow, Reddit, Hacking with Swift, and another forums, websites that I don't remember ^_^.
