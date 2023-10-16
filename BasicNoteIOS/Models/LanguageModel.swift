@@ -18,6 +18,6 @@ struct LanguageModel: Identifiable, Codable, Equatable {
         self.value = value
     }
     
-    static let langVI = LanguageModel(title: "Viet Nam", value: "vi")
+    static let langVI = LanguageModel(title: "VietNam", value: "vi")
     static let langEN = LanguageModel(title: "English", value: "en")
 }

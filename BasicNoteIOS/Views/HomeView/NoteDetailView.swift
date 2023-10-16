@@ -36,6 +36,8 @@ struct NoteDetailView: View {
     
     @State var selectedPriority: Priority
     
+    
+    
     init(item: NoteModel) {
         self.item = item
         self._titleTxtField = State(initialValue: item.title)
@@ -76,6 +78,13 @@ struct NoteDetailView: View {
     }
     
     var body: some View {
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            formatter.locale = Locale(identifier: homeViewModel.currentLang.value)
+            return formatter
+        }()
         List{
             Section{
                 TextField("enter_title_str", text: $titleTxtField, axis: .vertical)
@@ -100,7 +109,8 @@ struct NoteDetailView: View {
                 HStack{
                     Text("update_title_str")
                     Spacer()
-                    Text(item.createDate.formatted(date: .abbreviated, time: .shortened))
+                    Text(dateFormatter.string(from: item.createDate))
+                        .font(.footnote)
                 }
                 HStack {
                     Text("priority_str")
